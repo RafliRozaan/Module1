@@ -182,18 +182,19 @@ def get_n_most_common_colors(image_a, n):
     sorted_colors = sorted(colors, key=lambda t: t[0], reverse=True)
     return [np.array(color[1]) for color in sorted_colors[:n]]
 
-def predict_mask(image,mask,N):
-    centers = get_n_most_common_colors(cv2.bitwise_and(image, image, mask),N)
+def predict_mask(img,mask,N):
+    centers = get_n_most_common_colors(cv2.bitwise_and(img, img, mask),N)
     threshold = 32
-    
+    outputs = []
     for i in range(len(tuple(centers))):
         rgb_color = tuple(centers[i])
         lower = np.array([max(0, c - threshold) for c in rgb_color])
         upper = np.array([min(255, c + threshold) for c in rgb_color])
-        mask = cv2.inRange(image, lower, upper)
-        output = cv2.bitwise_and(image, image, mask=mask)
+        mask = cv2.inRange(img, lower, upper)
+        output = cv2.bitwise_and(img, img, mask=mask)
         output = black_to_white(output)
-        cv2.imwrite("im_"+str(i)+".jpg",output)
+        outputs.append(output)
+    return outputs, centers
 
 #Preprocessing Lib End
 
@@ -213,9 +214,9 @@ if predict_button:
 
     client = dataiku.set_remote_dss(host, apiKey)
 
-    model_folder = dataiku.Folder("Module1",'MODULE1')
+    model_folder = dataiku.Folder("Test",'MODULE1')
     model_path = model_folder.list_paths_in_partition()
-    print(model_path)
+    st.write(model_path)
 
     tmp_file_path = 'better_predictor_v5.h5'
 
@@ -236,5 +237,10 @@ if predict_button:
     st.image(re_mask)
     N = 10
     image = re_img
-    st.image(re_mask)
     threshold = 32 # example threshold value
+    outputs, centers = predict_mask(re_img,re_mask,10)
+    for i in outputs:
+        st.image(outputs[i])
+    
+    
+
