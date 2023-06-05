@@ -1,5 +1,4 @@
--i https://ai-schlumberger-eag-consulting.p.datascience.cloud.slb-ds.com/public/packages/dataiku-internal-client.tar.gz
-dataiku
+https://ai-schlumberger-eag-consulting.p.datascience.cloud.slb-ds.com/public/packages/dataiku-internal-client.tar.gz
 dataiku-api-client
 pandas
 tensorflow
