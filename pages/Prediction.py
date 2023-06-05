@@ -206,7 +206,7 @@ st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_ht
 predict_button = st.button('load_model')
 
 if predict_button:
-    model = tf.keras.models.load_model('better_predictor_v5.h5')
+    model = tf.keras.models.load_model('./better_predictor_v5.h5')
 
     st.success('Model Loaded')
     model.summary(print_fn=lambda x: st.text(x))
