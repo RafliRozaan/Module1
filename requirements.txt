@@ -1,4 +1,4 @@
--i  https://ai-schlumberger-eag-consulting.p.datascience.cloud.slb-ds.com/public/packages/dataiku-internal-client.tar.gz
+--extra-index-url  https://ai-schlumberger-eag-consulting.p.datascience.cloud.slb-ds.com/public/packages/dataiku-internal-client.tar.gz
 dataiku-internal-client
 dataiku-api-client
 pandas
