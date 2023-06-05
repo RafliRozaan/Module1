@@ -1,14 +1,9 @@
 import streamlit as st
-from PIL import Image 
-import plotly.graph_objs as go
 
 st.set_page_config(layout="wide",page_title="Curve Digitalization",page_icon="📈",)
 
 st.markdown("<h1 style='text-align: center;'>Line Curve Digitalization</h1>", unsafe_allow_html=True)
 desc, input_, output_ = st.tabs(["Description", "Input", "Output"])
-
-def read_img(imagein):
-    return Image.open(imagein)
 
 
 css = """
