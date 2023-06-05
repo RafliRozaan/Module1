@@ -3,7 +3,9 @@ import numpy as np
 import tensorflow as tf
 from sklearn.cluster import KMeans
 import cv2
-from PIL import Image
+from PIL import Image   
+import dataiku
+import os
 
 #Preprocessing Lib Start
 
@@ -206,7 +208,24 @@ st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_ht
 predict_button = st.button('load_model')
 
 if predict_button:
-    model = tf.keras.models.load_model('./better_predictor_v5.h5')
+    host = "https://ai-schlumberger-eag-consulting.p.datascience.cloud.slb-ds.com"
+    apiKey = 'CvyAhYL5Y1AO5VLd1aNDUUVSrgXRBFjL'
+
+    client = dataiku.set_remote_dss(host, apiKey)
+
+    model_folder = dataiku.Folder("Test",'MODULE1')
+    model_path = model_folder.list_paths_in_partition()
+    print(model_path)
+
+    tmp_file_path = 'better_predictor_v5.h5'
+
+    with open(tmp_file_path, "wb") as tmp_file:
+        with model_folder.get_download_stream(model_path[0]) as model_weight_file:
+            tmp_file.write(model_weight_file.read())
+
+    model = tf.keras.models.load_model(tmp_file_path,compile=False)
+    os.remove(tmp_file_path)
+
 
     st.success('Model Loaded')
     model.summary(print_fn=lambda x: st.text(x))
