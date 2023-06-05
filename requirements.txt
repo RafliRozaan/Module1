@@ -1,5 +1,5 @@
 --extra-index-url https://ai-schlumberger-eag-consulting.p.datascience.cloud.slb-ds.com/public/packages/dataiku-internal-client.tar.gz
-dataiku
+dataiku==11.0.0
 dataiku-api-client
 pandas
 tensorflow
