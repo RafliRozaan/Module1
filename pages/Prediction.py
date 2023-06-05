@@ -239,7 +239,7 @@ if predict_button:
     threshold = 32 # example threshold value
     outputs, centers = predict_mask(re_img,re_mask,10)
     for i in outputs:
-        st.image(outputs[i])
+        st.write(outputs[i].shape)
     
     
 
