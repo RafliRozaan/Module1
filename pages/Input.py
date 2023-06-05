@@ -378,7 +378,6 @@ if st.button('Reset line positions'):
 
 
 st.markdown("<h1 style='text-align: center;'>Curve Digitizer</h1>", unsafe_allow_html=True)
-bg_image = st.file_uploader("Background image:", type=["png", "jpg"])
 st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
 st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_html=True)
 predict_button = st.button('load_model')
