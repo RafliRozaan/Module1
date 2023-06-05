@@ -214,9 +214,8 @@ if predict_button:
 
     client = dataiku.set_remote_dss(host, apiKey)
 
-    model_folder = dataiku.Folder("Test",'MODULE1')
+    model_folder = dataiku.Folder("Module1",'MODULE1')
     model_path = model_folder.list_paths_in_partition()
-    st.write(model_path)
 
     tmp_file_path = 'better_predictor_v5.h5'
 
