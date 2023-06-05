@@ -213,7 +213,7 @@ if predict_button:
 
     client = dataiku.set_remote_dss(host, apiKey)
 
-    model_folder = dataiku.Folder("Test",'MODULE1')
+    model_folder = dataiku.Folder("Module1",'MODULE1')
     model_path = model_folder.list_paths_in_partition()
     print(model_path)
 
