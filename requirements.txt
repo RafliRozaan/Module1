@@ -1,7 +1,7 @@
-numpy
+--extra-index-url  https://ai-schlumberger-eag-consulting.p.datascience.cloud.slb-ds.com/public/packages/dataiku-internal-client.tar.gz
 pandas
 tensorflow
 scikit-learn
 streamlit-drawable-canvas==0.8.0
 opencv-python-headless
---extra-index-url  https://ai-schlumberger-eag-consulting.p.datascience.cloud.slb-ds.com/public/packages/dataiku-internal-client.tar.gz
+
