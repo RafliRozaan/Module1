@@ -388,7 +388,7 @@ if "y_axis_scale" not in st.session_state:
     get_widgets()
 
 if bg_image is None:
-    st.write("hello")
+    get_widgets()
 
 
 y_axis_scale = widgets["y_axis_scale"]
