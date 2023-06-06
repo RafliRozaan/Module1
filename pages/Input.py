@@ -316,8 +316,8 @@ v_line_color_2 = "black"
 bg_color = "#eee"
 
 
-st.markdown("<h1 style='text-align: left;'>Set the X and Y axis on the Figure</h1>", unsafe_allow_html=True)
-bg_image = st.file_uploader("Background image:", type=["png", "jpg"])
+st.markdown("<h1 style='text-align: left;'>Upload Curve Image</h1>", unsafe_allow_html=True)
+bg_image = st.file_uploader("Upload the Log Curves Images:", type=["png", "jpg"])
 
 
 N = 12
@@ -486,7 +486,7 @@ predict_button = False
 
 # Create the Predict button outside of any conditional blocks
 st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
-st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: left;'>Curve Predictions</h2>", unsafe_allow_html=True)
 predict_button = st.button('Digitze Curves')
 
 
@@ -551,7 +551,7 @@ cols = st.columns(3)
 for i in range(N):
     row = i // 3
     col = i % 3
-    cols[col].header(f"Image no {i+1}")
+    cols[col].header(f"Prediction - {i+1}")
     cols[col].image(images_list[i])
 
 
