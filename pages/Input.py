@@ -346,8 +346,9 @@ canvas_result = st_canvas(
 
 # Define the predict_button variable before it is used
 predict_button = False
-
-if st.button('Save line positions'):
+save_button = st.button('Save line positions')
+reset_button = st.button('Reset line positions')
+if save_button:
     df = pd.DataFrame({
         'h_line_min_y': [h_line_min_y],
         'h_line_max_y': [h_line_max_y],
@@ -376,7 +377,7 @@ if st.button('Save line positions'):
         st.session_state['image_data'] = image_data
     st.session_state['df'] = df
 
-if st.button('Reset line positions'):
+if reset_button:
     df = pd.DataFrame({
         'h_line_min_y': [0],
         'h_line_max_y': [0],
@@ -432,6 +433,7 @@ if predict_button:
     image = re_img
     threshold = 32 # example threshold value
     outputs, centers = predict_mask(re_img,re_mask,10)
-    
+    st.session_state['outputs'] = outputs
+    st.session_state['centers'] = centers
     
     
