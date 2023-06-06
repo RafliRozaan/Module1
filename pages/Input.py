@@ -609,7 +609,7 @@ def calculate_and_download_values():
         mask = (X >= v_line_min_x) & (X <= v_line_max_x) & (Y >= h_line_min_y) & (Y <= h_line_max_y)
         filtered_X = X[mask]
         filtered_Y = Y[mask]
-        
+        st.write(df_data)
         # Calculate the relative positions of the points
         rel_X = (filtered_X - v_line_min_x) / (v_line_max_x - v_line_min_x)
         rel_Y = (filtered_Y - h_line_min_y) / (h_line_max_y - h_line_min_y)
