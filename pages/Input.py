@@ -397,7 +397,7 @@ v_line_max_position = st.session_state.xmin
 st.sidebar.markdown("<hr/>", unsafe_allow_html=True)
 
 # Add a new section with a 6x2 grid of checkboxes
-st.markdown("<b><span style='color:black'>Predictions</span></b>", unsafe_allow_html=True)
+st.sidebar.markdown("<b><span style='color:black'>Predictions</span></b>", unsafe_allow_html=True)
 cols = st.sidebar.columns(2)
 for i in range(1, 13):
     cols[(i - 1) % 2].checkbox(f"Prediction {i}", key=f"prediction_{i}")
@@ -694,5 +694,6 @@ st.write(st.session_state['df'])
 if 'df' in st.session_state:
         st.markdown(get_table_download_link(st.session_state['df']), unsafe_allow_html=True)
 
-
+if st.buttin('Click Me'):
+    st.write(st.session_state['df'])
 
