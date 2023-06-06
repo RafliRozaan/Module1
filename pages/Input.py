@@ -273,8 +273,8 @@ def load_model():
     os.remove(tmp_file_path)
     return model
 
-@st.cache_resource
-def mainfun(experimental_allow_widgets=True):
+@st.cache_resource(experimental_allow_widgets=True)
+def mainfun():
     # Specify canvas parameters in application
     drawing_mode = 'line'
 
