@@ -382,7 +382,7 @@ popopo=1
 widgets = get_widgets()
 
 for key, value in widgets.items():
-    exec(f"{key} = '{value}'")
+    exec(f"{key} = {value}")
 
 # Add a horizontal line to separate the sections
 st.sidebar.markdown("<hr/>", unsafe_allow_html=True)
