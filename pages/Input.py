@@ -613,11 +613,19 @@ def calculate_and_download_values():
         df_data[f"Curve-{i + 1}"] = {"X": X, "Y": Y}
     
     df = pd.DataFrame(df_data).stack().apply(pd.Series).reset_index(level=1).rename(columns={"level_1": "Curve"})
-    
+    df = df.to_csv().encode('utf-8')
+
     # Download the DataFrame as an Excel file
-    df.to_csv("results.csv", index=False)
+    st.session_state['df'] = df.to_csv("results.csv", index=False)
     
     st.success("Values calculated and downloaded successfully")
 
 st.markdown("<h2 style='text-align: left;'>Calculate and Download Values</h2>", unsafe_allow_html=True)
 calculate_button = st.button('Calculate and Download Values', on_click=calculate_and_download_values)
+
+st.download_button(
+    label="Download data as CSV",
+    data=st.session_state['df'],
+    file_name='large_df.csv',
+    mime='text/csv',
+)
