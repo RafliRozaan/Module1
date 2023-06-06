@@ -372,6 +372,7 @@ get_widgets()
 if "y_axis_scale" not in st.session_state:
     get_widgets()
 
+get_widgets()
 y_axis_scale = st.session_state.y_axis_scale
 y_min_value = st.session_state.y_min_value
 y_max_value = st.session_state.y_max_value
