@@ -493,7 +493,7 @@ predict_button = st.button('Digitze Curves')
 def plot_results(results, re_img, colors):
     images = []
     for i in range(N):
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(5,5*re_img.shape[0]/re_img.shape[1]))
         ax.imshow(re_img, cmap='jet',alpha=0.2)
         ax.plot(results[i][0], results[i][1], alpha=0.5, linewidth=0.2, marker='.',markersize=0.55,c=colors[i])
         ax.set_title('Prediction '+str(i+1))
@@ -611,7 +611,7 @@ def calculate_and_download_values():
     v_line_min_x = int(width * v_line_min_position / 100)
     v_line_max_x = int(width * v_line_max_position / 100)
 
-
+    """
     st.write("h line min max")
     st.write(h_line_min_position)
     st.write(h_line_max_position)
@@ -633,7 +633,7 @@ def calculate_and_download_values():
     st.write(x_axis_scale)
     st.write(y_axis_scale)
 
-
+    """
 
     # Select the results based on the checked checkboxes
     sel_results = [st.session_state['results'][i] for i in range(12) if st.session_state[f"prediction_{i + 1}"]]
