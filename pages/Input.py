@@ -124,7 +124,10 @@ def uncrop_image_v2(cropped_images, num_crops):
 def predict_curves(img,model):
     crop_sizes = 32*10
     c_img, ri = crop_image_v2(img,(crop_sizes,crop_sizes),255)
-    p = model.predict(c_img/255.0)
+    p = []
+    for i in range(c_img.shape[0]):
+        p.append(model.predict(c_img[i:i+1]/255.0))
+    p = np.concatenate(p)
 
     p[p <= 0.9] = 0
     p[p > 0.9] = 1
@@ -132,6 +135,7 @@ def predict_curves(img,model):
     re_img = uncrop_image_v2(c_img,ri)
     
     return re_img, re_mask
+
 
 def mask_flattened(c_msk):
     # Create an empty array with the same shape as the first three dimensions of c_msk
