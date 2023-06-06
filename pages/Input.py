@@ -277,7 +277,7 @@ bg_image = st.file_uploader("Background image:", type=["png", "jpg"])
 
 @st.cache_resource(experimental_allow_widgets=True)
 def mainfun():
-    global drawing_mode, stroke_width, h_line_color_1, h_line_color_2, v_line_color_1, v_line_color_2
+    global drawing_mode, stroke_widths, h_line_color_1, h_line_color_2, v_line_color_1, v_line_color_2
     global bg_color, N, realtime_update, accuracy, width, height, canvas_resized
     global crop_sizes, image, c_img, ri
     global styles, canvas_css
@@ -293,7 +293,7 @@ def mainfun():
     # Specify canvas parameters in application
     drawing_mode = 'line'
 
-    stroke_width = st.sidebar.slider("Stroke width: ", 1, 25, 2)
+    stroke_widths = st.sidebar.slider("Stroke width: ", 1, 25, 2)
     h_line_color_1 = "blue"
     h_line_color_2 = "green"
     v_line_color_1 = "red"
@@ -402,7 +402,7 @@ col3, col4 = st.columns((0.1,1))
 with col4:
     canvas_result = st_canvas(
     fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
-    stroke_width=stroke_width,
+    stroke_width=stroke_widths,
     background_color=bg_color,
     background_image=image if bg_image else None,
     update_streamlit=realtime_update,
