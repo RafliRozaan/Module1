@@ -667,7 +667,6 @@ def calculate_and_download_values():
     st.write("Below is dataframe in df")
     st.write(df)
 
-    st.write(nonexistant)
     # Download the DataFrame as an Excel file
     st.session_state['df'] = df
 
