@@ -8,6 +8,8 @@ from sklearn.cluster import KMeans
 import cv2
 from PIL import Image   
 import dataiku
+import plotly.graph_objs as go
+from plotly.subplots import make_subplots
 
 #Preprocessing Lib Start
 
@@ -306,6 +308,7 @@ if bg_image is not None:
     image = Image.open(bg_image)
     c_img, ri = crop_image_v2(np.asarray(image),(crop_sizes,crop_sizes),255)
     image = Image.fromarray(uncrop_image_v2(c_img,ri).astype('uint8'), 'RGB')
+    width_ori, height_ori = image.size
     width, height = image.size
     max_length = 800
     if height > max_length:
@@ -441,8 +444,8 @@ if save_button:
         'v_line_max_x': [v_line_max_x],
         'image_width': [image.size[0]] if bg_image else [None],
         'image_height': [image.size[1]] if bg_image else [None],
-        'body_width': [width],
-        'body_height': [height],
+        'image_width_ori': [width_ori],
+        'image_height_ori': [height_ori],
         'y_axis_scale': [y_axis_scale],
         'x_axis_scale': [x_axis_scale],
         'num_curves': [N]
@@ -465,8 +468,8 @@ if reset_button:
         'v_line_max_x': [0],
         'image_width': [None],
         'image_height': [None],
-        'body_width': [0],
-        'body_height': [0],
+        'image_width_ori': [0],
+        'image_height_ori': [0],
         'y_axis_scale': ["normal"],
         'x_axis_scale': ["normal"],
         'num_curves': [1]
@@ -510,5 +513,47 @@ if predict_button:
     focus = [outputs[i] for i in n_focus]
     focus = [mask_flattened(i) for i in focus]
     results = [analyze_mask(i,'median',10) for i in focus]
-    
+
+    # Calculate the number of rows needed for the subplots
+    N = len(results)
+    num_rows = (N + 2) // 3
+
+    # Create the subplots
+    fig = make_subplots(rows=num_rows, cols=3)
+
+    # Iterate through the results and add a scatter plot for each curve
+    for i in range(N):
+        row = i // 3 + 1
+        col = i % 3 + 1
+        X = results[i][0]
+        Y = results[i][1]
+        fig.add_trace(
+            go.Scatter(x=X, y=Y, mode='markers', marker=dict(size=5)),
+            row=row, col=col
+        )
+        fig.add_layout_image(
+            dict(
+                source=re_img,
+                xref="x",
+                yref="y",
+                x=0,
+                y=1,
+                sizex=1,
+                sizey=1,
+                sizing="stretch",
+                opacity=0.5,
+                layer="below"
+            ),
+            row=row, col=col
+        )
+
+    # Update the layout of the subplots
+    fig.update_layout(
+        height=num_rows * 400,
+        showlegend=False
+    )
+
+    # Show the plot
+    fig.show()
+
     

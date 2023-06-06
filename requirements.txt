@@ -5,4 +5,4 @@ tensorflow
 scikit-learn
 streamlit-drawable-canvas==0.8.0
 opencv-python-headless
-
+plotly
