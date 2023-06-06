@@ -17,7 +17,7 @@ css = """
 
 st.markdown(css, unsafe_allow_html=True)
 
-st.markdown("<h2 style='text-align: center;'>Functionality Description 📜</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center;'>Functionality Description</h2>", unsafe_allow_html=True)
 st.markdown("""<h4 style='text-align: justify;'>The algorithm works by combining DeepLabV3+ images segmentation architecture to segmentize the digital curve by filtering the curves line that are potentially the data points and differentiating between curves using k-mean. 
                     The ranges of axes are needed for interpolation.</h4>""", unsafe_allow_html=True)
 st.markdown("""
