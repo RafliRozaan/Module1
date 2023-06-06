@@ -522,49 +522,44 @@ if predict_button:
     
         # Display the image using Streamlit
         st.image(output_image, caption=f"Output {i+1}")
+        def create_datapoint_images(results: list, width: int, height: int) -> list:
+            """
+            Create a list of 2D images from the X and Y data in the results list.
 
+            :param results: A list of tuples containing the X and Y data for each curve.
+            :param width: The width of the output images.
+            :param height: The height of the output images.
+            :return: A list of 2D numpy arrays representing the images.
+            """
+            # Initialize an empty list to store the output images
+            output_images = []
+            
+            # Iterate through the results
+            for i in range(len(results)):
+                # Get the X and Y data for the current curve
+                X = results[i][0]
+                Y = results[i][1]
+                
+                # Create an empty image filled with white pixels
+                image = np.full((height, width), 255, dtype=np.uint8)
+                
+                # Set the pixels at the datapoint positions to black
+                image[Y.astype(int), X.astype(int)] = 0
+                
+                # Add the image to the output list
+                output_images.append(image)
+            
+            return output_images
 
-    # Calculate the number of rows needed for the subplots
-    N = len(results)
-    num_rows = (N + 2) // 3
+    # Call the function to create the datapoint images
+    datapoint_images = create_datapoint_images(results, width, height)
 
-    # Create the subplots
-    fig = make_subplots(rows=num_rows, cols=3)
-    re_img_pil = Image.fromarray(re_img)
-
-    # Iterate through the results and add a scatter plot for each curve
-    for i in range(N):
-        row = i // 3 + 1
-        col = i % 3 + 1
-        X = results[i][0]
-        Y = results[i][1]
-        fig.add_trace(
-            go.Scatter(x=X, y=Y, mode='markers', marker=dict(size=5)),
-            row=row, col=col
-        )
-        fig.add_layout_image(
-            dict(
-                source=re_img_pil,
-                xref="x",
-                yref="y",
-                x=0,
-                y=1,
-                sizex=1,
-                sizey=1,
-                sizing="stretch",
-                opacity=0.5,
-                layer="below"
-            ),
-            row=row, col=col
-        )
-
-    # Update the layout of the subplots
-    fig.update_layout(
-        height=num_rows * 400,
-        showlegend=False
-    )
-
-    # Show the plot
-    st.plotly_chart(fig)
+    # Iterate through the datapoint images and display each one using Streamlit
+    for i in range(len(datapoint_images)):
+        # Convert the numpy array to a PIL.Image.Image object
+        datapoint_image = Image.fromarray(datapoint_images[i])
+        
+        # Display the image using Streamlit
+        st.image(datapoint_image, caption=f"Datapoints {i+1}")
 
     
