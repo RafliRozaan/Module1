@@ -596,7 +596,7 @@ if predict_button:
     st.session_state['results'] = results
     st.session_state['colors'] = colors
     plot_results(fig, axs,results,re_img,colors)
-
+    
+plot_results(fig, axs, st.session_state['results'], np.asarray(Image.open(bg_image)),st.session_state['colors'])
 st.pyplot(fig)
 
-plot_results(fig, axs, st.session_state['results'], np.asarray(Image.open(bg_image)),st.session_state['colors'])
