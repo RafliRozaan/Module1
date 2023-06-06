@@ -572,6 +572,7 @@ def get_table_download_link(df):
         csv = df.to_csv(index=False)
         b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
         href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
+        return href
 
 
 def calculate_and_download_values():
@@ -686,4 +687,3 @@ if 'df' in st.session_state:
 if st.button('Click Me'):
     st.write(st.session_state['df'])
 
-st.markdown(get_table_download_link(st.session_state['df'],"The Lost Link"), unsafe_allow_html=True)
