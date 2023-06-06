@@ -219,7 +219,7 @@ def load_model():
     model = tf.keras.models.load_model(tmp_file_path,compile=False)
     os.remove(tmp_file_path)
     return model
-model = load_model()
+
 
 if 'outputs' in st.session_state:
     del st.session_state['outputs']
@@ -255,6 +255,7 @@ if bg_image is not None:
         width = int(ratio * width)
         height = max_length
         image = image.resize((width, height), Image.ANTIALIAS)
+        st.write(image)
         canvas_resized = True
 
 # Add sliders to control the positions of the horizontal and vertical lines
@@ -435,7 +436,7 @@ predict_button = st.button('load_model')
 
 if predict_button:
     st.markdown("<h2 style='text-align: center;'>Output Result 📝</h2>", unsafe_allow_html=True)
-
+    model = load_model()
     st.success('Model Loaded')
     model.summary(print_fn=lambda x: st.text(x))
     image = Image.open(bg_image)
