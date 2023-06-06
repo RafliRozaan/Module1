@@ -525,7 +525,8 @@ if predict_button:
         """
         # Get the shape of the image
         M, N, _ = image.shape
-
+        st.write(str("height ")+str(M))
+        st.write("Width "+str(N))
         # Create a new figure
         fig = go.Figure()
 
@@ -569,6 +570,10 @@ if predict_button:
             X = results[current_curve][0]
             Y = results[current_curve][1]
 
+            st.write("min X " + str(X.min()) + " Max X " + str(X.max()))
+            st.write(len(X))
+            st.write("min Y " + str(Y.min()) + " Max Y " + str(Y.max()))
+            st.write(len(Y))
             # Add a scatter plot to the figure
             fig.add_trace(
                 go.Scatter(x=X, y=Y, mode='lines', marker=dict(size=5), name=f"Curve {current_curve+1}")
