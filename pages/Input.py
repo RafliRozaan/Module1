@@ -308,7 +308,6 @@ if bg_image is not None:
     image = Image.open(bg_image)
     c_img, ri = crop_image_v2(np.asarray(image),(crop_sizes,crop_sizes),255)
     image = Image.fromarray(uncrop_image_v2(c_img,ri).astype('uint8'), 'RGB')
-    width_ori, height_ori = image.size
     width, height = image.size
     max_length = 800
     if height > max_length:
@@ -384,10 +383,10 @@ for i in range(1, 13):
 
 
 # Calculate the y-coordinates of the horizontal lines and the x-coordinates of the vertical lines based on the slider values
-h_line_min_y = int(height_ori * h_line_min_position / 100)
-h_line_max_y = int(height_ori * h_line_max_position / 100)
-v_line_min_x = int(width_ori * v_line_min_position / 100)
-v_line_max_x = int(width_ori * v_line_max_position / 100)
+h_line_min_y = int(height * h_line_min_position / 100)
+h_line_max_y = int(height * h_line_max_position / 100)
+v_line_min_x = int(width * v_line_min_position / 100)
+v_line_max_x = int(width * v_line_max_position / 100)
 
 # Create a canvas component
 
