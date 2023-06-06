@@ -231,17 +231,23 @@ if bg_image is not None:
         canvas_resized = True
 
 # Add sliders to control the positions of the horizontal and vertical lines
+y_axis_scale = st.sidebar.selectbox("Y-Axis Scale", ["normal", "log"])
+
 st.sidebar.markdown("<b><span style='color:green'>Y-min (%):</span></b>", unsafe_allow_html=True)
 h_line_min_position = st.sidebar.slider("", 0, 100, 75,accuracy,key="ymin")
 
 st.sidebar.markdown("<b><span style='color:blue'>Y-max (%):</span></b>", unsafe_allow_html=True)
 h_line_max_position = st.sidebar.slider("", 0, 100, 25,accuracy,key="ymax")
 
+x_axis_scale = st.sidebar.selectbox("X-Axis Scale", ["normal", "log"])
+
 st.sidebar.markdown("<b><span style='color:red'>X-min (%):</span></b>", unsafe_allow_html=True)
 v_line_min_position = st.sidebar.slider("", 0, 100, 25,accuracy,key="xmax")
 
 st.sidebar.markdown("<b><span style='color:black'>X-max (%):</span></b>", unsafe_allow_html=True)
 v_line_max_position = st.sidebar.slider("", 0, 100, 75,accuracy,key="xmin")
+
+N = st.sidebar.number_input("Number of Curves on the image", value=1)
 
 # Calculate the y-coordinates of the horizontal lines and the x-coordinates of the vertical lines based on the slider values
 h_line_min_y = int(height * h_line_min_position / 100)
@@ -350,7 +356,10 @@ if st.button('Save line positions'):
         'image_width': [image.size[0]] if bg_image else [None],
         'image_height': [image.size[1]] if bg_image else [None],
         'body_width': [width],
-        'body_height': [height]
+        'body_height': [height],
+        'y_axis_scale': [y_axis_scale],
+        'x_axis_scale': [x_axis_scale],
+        'num_curves': [N]
     })
 
     st.success('Line positions and image dimensions saved as CSV file')
@@ -376,7 +385,10 @@ if st.button('Reset line positions'):
         'image_width': [None],
         'image_height': [None],
         'body_width': [0],
-        'body_height': [0]
+        'body_height': [0],
+        'y_axis_scale': ["normal"],
+        'x_axis_scale': ["normal"],
+        'num_curves': [1]
     })
     
 
@@ -387,6 +399,7 @@ if st.button('Reset line positions'):
         del st.session_state['image_data']
     if 'df' in st.session_state:
         del st.session_state['df']
+
     
 
 if predict_button:
