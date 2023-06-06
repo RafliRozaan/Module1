@@ -672,7 +672,7 @@ def calculate_and_download_values():
     #st.write(df_data)
     df = pd.DataFrame(df_data).stack().apply(pd.Series).reset_index(level=1).rename(columns={"level_1": "Curve"})
     #st.write("Below is dataframe in df")
-    #st.write(df)
+    st.write(df)
     # Download the DataFrame as an Excel file
 
     @st.cache_data
