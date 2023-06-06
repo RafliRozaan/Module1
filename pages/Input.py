@@ -694,6 +694,6 @@ st.write(st.session_state['df'])
 if 'df' in st.session_state:
         st.markdown(get_table_download_link(st.session_state['df']), unsafe_allow_html=True)
 
-if st.buttin('Click Me'):
+if st.button('Click Me'):
     st.write(st.session_state['df'])
 
