@@ -396,6 +396,10 @@ if reset_button:
         del st.session_state['image_data']
     if 'df' in st.session_state:
         del st.session_state['df']
+    if 'outputs' in st.session_state:
+        del st.session_state['outputs']
+    if 'centers' in st.session_state:
+        del st.session_state['centers']
 
 # Create the Predict button outside of any conditional blocks
 st.markdown("<h1 style='text-align: left;'>Curve Digitizer</h1>", unsafe_allow_html=True)
