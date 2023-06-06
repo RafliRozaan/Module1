@@ -520,6 +520,7 @@ if predict_button:
 
     # Create the subplots
     fig = make_subplots(rows=num_rows, cols=3)
+    re_img_pil = Image.fromarray(re_img)
 
     # Iterate through the results and add a scatter plot for each curve
     for i in range(N):
@@ -533,7 +534,7 @@ if predict_button:
         )
         fig.add_layout_image(
             dict(
-                source=re_img,
+                source=re_img_pil,
                 xref="x",
                 yref="y",
                 x=0,
