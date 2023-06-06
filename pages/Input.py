@@ -540,16 +540,21 @@ if predict_button:
                 X = results[i][0]
                 Y = results[i][1]
                 
+                # Scale the X and Y values to the range [0, width-1] and [0, height-1], respectively
+                X = np.clip((X * (width - 1)).astype(int), 0, width - 1)
+                Y = np.clip((Y * (height - 1)).astype(int), 0, height - 1)
+                
                 # Create an empty image filled with white pixels
                 image = np.full((height, width), 255, dtype=np.uint8)
                 
                 # Set the pixels at the datapoint positions to black
-                image[Y.astype(int), X.astype(int)] = 0
+                image[Y, X] = 0
                 
                 # Add the image to the output list
                 output_images.append(image)
             
             return output_images
+
 
     # Call the function to create the datapoint images
     datapoint_images = create_datapoint_images(results, width, height)
