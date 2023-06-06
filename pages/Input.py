@@ -642,14 +642,16 @@ def calculate_and_download_values():
 
     # Download the DataFrame as an Excel file
     df = df.to_csv("results.csv", index=False).encode('utf-8')
-    st.download_button(
-        label="Download data as CSV",
-        data=df,
-        file_name='large_df.csv',
-        mime='text/csv',
-    )
-    st.success("Values calculated and downloaded successfully")
+    st.session_state['df'] = df
 
 st.markdown("<h2 style='text-align: left;'>Calculate and Download Values</h2>", unsafe_allow_html=True)
 calculate_button = st.button('Calculate and Download Values', on_click=calculate_and_download_values)
 
+if 'df' in st.session_state:
+    st.download_button(
+            label="Download data as CSV",
+            data=st.session_state['df'],
+            file_name='large_df.csv',
+            mime='text/csv',
+        )
+    st.success("Values calculated and downloaded successfully")
