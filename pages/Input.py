@@ -302,7 +302,10 @@ height = 800
 canvas_resized = False
 
 if bg_image is not None:
+    crop_sizes = 32*10
     image = Image.open(bg_image)
+    c_img, ri = crop_image_v2(np.asarray(image),(crop_sizes,crop_sizes),255)
+    image = Image.fromarray(uncrop_image_v2(c_img,ri).astype('uint8'), 'RGB')
     width, height = image.size
     max_length = 800
     if height > max_length:
