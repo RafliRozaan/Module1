@@ -638,7 +638,7 @@ def calculate_and_download_values():
     # Download the DataFrame as an Excel file
     @st.experimental_memo
     def convert_df(df):
-        return df.to_csv("results.csv", index=False).encode('utf-8')
+        return df.to_csv("results.csv", index=False, encoding='utf-8')
     
     csv = convert_df(df)
     st.session_state['df'] = csv
