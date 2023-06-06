@@ -327,7 +327,18 @@ styles = """
     padding: 10px;
 }
 </style>
+
+
 """
+
+canvas_css = """
+.stMarkdown {
+    display: grid;
+    place-items: center;
+}
+"""
+st.markdown(f'<style>{canvas_css}</style>', unsafe_allow_html=True)  # to center title for reference
+
 
 # Add the custom CSS styles to the page
 st.markdown(styles, unsafe_allow_html=True)
