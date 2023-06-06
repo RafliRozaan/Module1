@@ -501,7 +501,7 @@ if predict_button:
     image = Image.open(bg_image)
     st.write(np.asarray(image).shape)
     re_img,re_mask = predict_curves(np.asarray(image),model)
-    st.success('Model Loaded')
+    st.success('Prediction Done ! Analyzing using Unsupervised Learning')
     N = 10
     image = re_img
     threshold = 32 # example threshold value
@@ -514,8 +514,9 @@ if predict_button:
     focus = [outputs[i] for i in n_focus]
     focus = [mask_flattened(i) for i in focus]
     results = [analyze_mask(i,'median',10) for i in focus]
+    st.success('Analysis Done ! Plotting Candidates Curve')
     colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
-    
+
     def plot_results(results, re_img, colors):
         N = len(results)
         rows = np.ceil(N / 3).astype(int)
