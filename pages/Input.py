@@ -179,7 +179,7 @@ def black_to_white(image: np.ndarray) -> np.ndarray:
     return image
 
 def get_n_most_common_colors(image_a, n):
-    img = PIL.Image.fromarray(image_a)
+    img = Image.fromarray(image_a)
     colors = img.getcolors(img.size[0] * img.size[1])
     sorted_colors = sorted(colors, key=lambda t: t[0], reverse=True)
     return [np.array(color[1]) for color in sorted_colors[:n]]
@@ -412,6 +412,7 @@ st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_ht
 predict_button = st.button('load_model')
 
 if predict_button:
+    st.markdown("<h2 style='text-align: center;'>Output Result 📝</h2>", unsafe_allow_html=True)
     host = "https://ai-schlumberger-eag-consulting.p.datascience.cloud.slb-ds.com"
     apiKey = 'CvyAhYL5Y1AO5VLd1aNDUUVSrgXRBFjL'
 
@@ -444,7 +445,7 @@ if predict_button:
     st.session_state['outputs'] = outputs
     st.session_state['centers'] = centers
 
-st.markdown("<h2 style='text-align: center;'>Output Result 📝</h2>", unsafe_allow_html=True)
+
 # Initialize the outputs key in the session state object
 if 'outputs' not in st.session_state:
     st.session_state['outputs'] = []
