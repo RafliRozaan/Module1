@@ -19,4 +19,4 @@ if bg_image is not None:
         height = max_length
         image = image.resize((width, height), Image.ANTIALIAS)
         canvas_resized = True
-st.write(np.asarray(Image.open(bg_image)))
+st.write(np.asarray(Image.open(bg_image)).shape)
