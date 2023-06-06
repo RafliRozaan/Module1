@@ -10,6 +10,7 @@ from PIL import Image
 import dataiku
 import matplotlib
 import matplotlib.pyplot as plt
+import io
 
 #Preprocessing Lib Start
 
@@ -510,32 +511,32 @@ st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_ht
 predict_button = st.button('Digitze Curves')
 
 
-def plot_results(fig, axs, results, re_img, colors):
-        for i in range(N):
-            row = i // 3
-            col = i % 3
-            axs[row][col].imshow(re_img, cmap='jet',alpha=0.2)
-            axs[row][col].plot(results[i][0], results[i][1], alpha=0.5, linewidth=0.2, marker='.',markersize=0.55,c=colors[i])
-            axs[row][col].set_title('Prediction '+str(i+1))
-        for i in range(N, axs.shape[0] * axs.shape[1]):
-            row = i // 3
-            col = i % 3
-            axs[row][col].axis('off')
-        fig.subplots_adjust(wspace=0.1, hspace=0.4)
-
-@st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
-def create_plots(N):
+def plot_results(results, re_img, colors):
     rows = np.ceil(N / 3).astype(int)
     fig, axs = plt.subplots(rows, 3, figsize=(10, 10*N/2), dpi=300)
-    return fig,axs
+    for i in range(N):
+        row = i // 3
+        col = i % 3
+        axs[row][col].imshow(re_img, cmap='jet',alpha=0.2)
+        axs[row][col].plot(results[i][0], results[i][1], alpha=0.5, linewidth=0.2, marker='.',markersize=0.55,c=colors[i])
+        axs[row][col].set_title('Prediction '+str(i+1))
+    for i in range(N, axs.shape[0] * axs.shape[1]):
+        row = i // 3
+        col = i % 3
+        axs[row][col].axis('off')
+    fig.subplots_adjust(wspace=0.1, hspace=0.4)
 
-fig,axs = create_plots(N)
+    # Convert the figure to an image
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png")
+    buf.seek(0)
+    img = Image.open(buf)
 
-@st.cache_data
-def reset_predict():
-    return 0
+    # Close the figure
+    plt.close(fig)
 
-pre = reset_predict()
+    # Plot the image using streamlit.image
+    st.image(img)
 
 st.session_state['df'] = []
 
@@ -565,9 +566,8 @@ if predict_button:
     st.success('Analysis Done ! Plotting Candidates Curve')
     colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
     st.session_state['colors']  = colors
-    plot_results(fig, axs,results,re_img,colors)
+    plot_results(results,re_img,colors)
 
-st.pyplot(fig)
 
 def calculate_and_download_values():
     if bg_image is None or st.session_state['results'] is None:
