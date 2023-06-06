@@ -336,7 +336,7 @@ st.markdown(f'<style>{canvas_css}</style>', unsafe_allow_html=True)  # to center
 st.markdown(styles, unsafe_allow_html=True)
 
 # Create a 1x2 layout for the sliders
-@st.cache_data(allow_output_mutation=True)
+@st.cache_data(experimental_allow_widgets=True)
 def get_widgets():
     col1, col2 = st.sidebar.columns(2)
 
