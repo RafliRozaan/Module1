@@ -346,8 +346,8 @@ def get_widgets():
         st.markdown("<div class='column'>", unsafe_allow_html=True)
         st.markdown("<b>Y-Axis</b>", unsafe_allow_html=True)
         y_axis_scale = st.selectbox("Scale", ["normal", "log"], key="y_axis_scale")
-        y_min_value = st.text_input("Value min", key="y_min_value")
-        y_max_value = st.text_input("Value max", key="y_max_value")
+        y_min_value = st.number_input("Value min", key="y_min_value")
+        y_max_value = st.number_input("Value max", key="y_max_value")
         st.markdown("<b><span style='color:green'>Y-min (%):</span></b>", unsafe_allow_html=True)
         h_line_min_position = st.slider("hmin", 0, 100, 75,accuracy,key="ymin")
         st.markdown("<b><span style='color:blue'>Y-max (%):</span></b>", unsafe_allow_html=True)
@@ -359,8 +359,8 @@ def get_widgets():
         st.markdown("<div class='column'>", unsafe_allow_html=True)
         st.markdown("<b>X-Axis</b>", unsafe_allow_html=True)
         x_axis_scale = st.selectbox("Scale", ["normal", "log"], key="x_axis_scale")
-        x_min_value = st.text_input("Value min", key="x_min_value")
-        x_max_value = st.text_input("Value max", key="x_max_value")
+        x_min_value = st.number_input("Value min", key="x_min_value")
+        x_max_value = st.number_input("Value max", key="x_max_value")
         st.markdown("<b><span style='color:red'>X-min (%):</span></b>", unsafe_allow_html=True)
         v_line_min_position = st.slider("vmin", 0, 100, 25,accuracy,key="xmax")
         st.markdown("<b><span style='color:black'>X-max (%):</span></b>", unsafe_allow_html=True)
@@ -383,13 +383,13 @@ popopo=1
 widgets = get_widgets()
 
 y_axis_scale = widgets["y_axis_scale"]
-y_min_value = float(widgets["y_min_value"])
-y_max_value = float(widgets["y_max_value"])
+y_min_value = widgets["y_min_value"]
+y_max_value = widgets["y_max_value"]
 h_line_min_position = widgets["h_line_min_position"]
 h_line_max_position = widgets["h_line_max_position"]
 x_axis_scale = widgets["x_axis_scale"]
-x_min_value = float(widgets["x_min_value"])
-x_max_value = float(widgets["x_max_value"])
+x_min_value = widgets["x_min_value"]
+x_max_value = widgets["x_max_value"]
 v_line_min_position = widgets["v_line_min_position"]
 v_line_max_position = widgets["v_line_max_position"]
 
