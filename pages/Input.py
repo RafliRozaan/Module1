@@ -381,8 +381,8 @@ canvas_result = st_canvas(
         ],
         "background": bg_color,
     },
-    height=height if canvas_resized else None,
-    width=width if canvas_resized else None,
+    height=height,
+    width=width,
 )
 
 
