@@ -582,7 +582,7 @@ if predict_button:
     st.success('Prediction Done ! Analyzing using Unsupervised Learning')
     image = re_img
     threshold = 32 # example threshold value
-    outputs, centers = predict_mask(re_img,re_mask,10)
+    outputs, centers = predict_mask(re_img,re_mask,N)
 
     st.session_state['outputs'] = outputs
     st.session_state['centers'] = centers
