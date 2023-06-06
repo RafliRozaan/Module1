@@ -564,13 +564,10 @@ def plot_results(fig, axs, results, re_img, colors):
             ax.axis('off')
 
 if 'results' not in st.session_state:
-    results = None
-else:
-    results = st.session_state['results']
+    st.session_state['results'] = None
+
 if 'colors' not in st.session_state:
-    colors=[]
-else:
-    colors = st.session_state['colors']
+    st.session_state['colors'] = []
 
 rows = np.ceil(N / 3).astype(int)
 fig, axs = plt.subplots(rows, 3, figsize=(10, 10*N/2), dpi=300)
@@ -602,4 +599,4 @@ if predict_button:
 
 st.pyplot(fig)
 
-plot_results(fig, axs, results, np.asarray(Image.open(bg_image)),colors)
+plot_results(fig, axs, st.session_state['results'], np.asarray(Image.open(bg_image)),st.session_state['colors'])
