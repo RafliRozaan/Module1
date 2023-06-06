@@ -294,6 +294,7 @@ st.write(image)
 
 if bg_image:
     st.write("debug")
+    st.write(image.width)
 
 canvas_result = st_canvas(
     fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
