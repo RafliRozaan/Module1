@@ -8,8 +8,6 @@ from sklearn.cluster import KMeans
 import cv2
 from PIL import Image   
 import dataiku
-import plotly.graph_objs as go
-from plotly.subplots import make_subplots
 import matplotlib.pyplot as plt
 
 #Preprocessing Lib Start
