@@ -334,7 +334,7 @@ styles = """
 canvas_css = """
 .stMarkdown {
     display: grid;
-    place-items: center;
+    place-items: center !important;
 }
 """
 st.markdown(f'<style>{canvas_css}</style>', unsafe_allow_html=True)  # to center title for reference
@@ -393,7 +393,9 @@ v_line_max_x = int(width * v_line_max_position / 100)
 
 # Create a canvas component
 
-canvas_result = st_canvas(
+col3, col4 = st.beta_columns((0.1,1))
+with col4:
+    canvas_result = st_canvas(
     fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
     stroke_width=stroke_width,
     background_color=bg_color,
@@ -477,6 +479,8 @@ canvas_result = st_canvas(
     height=height,
     width=width,
 )
+
+
 
 
 
