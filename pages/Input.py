@@ -202,6 +202,55 @@ def predict_mask(img,mask,N):
         outputs.append(output)
     return outputs, centers
 
+
+def analyze_mask(mask: np.ndarray, stat: str = 'median', n_v: int = 2) -> np.ndarray:
+    """
+    Analyze a mask image and return the mean or median position of pixels with value 1 in each row.
+
+    :param mask: A 2D numpy array representing the mask image.
+    :param stat: The statistical measure to use ('mean' or 'median').
+    :param n_v: The number of neighbors to check in each direction (up and down).
+    :return: A tuple containing two 1D numpy arrays representing the filtered X and Y values.
+    """
+    assert stat in ['mean', 'median'], "Invalid value for 'stat'. Must be 'mean' or 'median'."
+    result = []
+    for row in mask:
+        positions = np.where(row == 1)[0]
+        if len(positions) > 0:
+            if stat == 'mean':
+                result.append(np.mean(positions))
+            else:
+                result.append(np.median(positions))
+        else:
+            result.append(mask.shape[1]+1)
+    results = zip(range(len(result)),result)
+    filtered = []
+    for i in results:
+        if (i[1] < mask.shape[1]):
+            filtered.append(i)
+    filtered = np.array(filtered)
+    Y = filtered[:,0]
+    X = filtered[:,1]
+    
+    # Additional feature
+    X_filtered = []
+    Y_filtered = []
+    for i in range(len(X)):
+        start = max(0, i - n_v)
+        end = min(len(X), i + n_v + 1)
+        neighbors = X[start:end]
+        q1 = np.percentile(neighbors, 25)
+        q3 = np.percentile(neighbors, 75)
+        iqr = q3 - q1
+        lower_bound = q1 - (1.5 * iqr)
+        upper_bound = q3 + (1.5 * iqr)
+        if lower_bound <= X[i] <= upper_bound:
+            X_filtered.append(X[i])
+            Y_filtered.append(Y[i])
+    
+    return (np.array(X_filtered), np.array(Y_filtered))
+
+
 #Preprocessing Lib End
 
 @st.cache_resource
@@ -454,33 +503,9 @@ if predict_button:
     outputs, centers = predict_mask(re_img,re_mask,10)
     st.session_state['outputs'] = outputs
     st.session_state['centers'] = centers
-
-
-# Initialize the outputs key in the session state object
-if 'outputs' not in st.session_state:
-    st.session_state['outputs'] = []
-
-# Get the outputs variable from session state
-outputs = st.session_state['outputs']
-
-# Calculate the number of rows needed to display all images
-num_rows = (len(outputs) + 1) // 2
-
-# Loop over each row
-for row in range(num_rows):
-    # Create a new row using columns
-    cols = st.columns(2)
-    
-    # Display the first image in this row (if it exists)
-    index = row * 2
-    if index < len(outputs):
-        cols[0].header(f"Image {index + 1}")
-        cols[0].image(outputs[index])
-    
-    # Display the second image in this row (if it exists)
-    index += 1
-    if index < len(outputs):
-        cols[1].header(f"Image {index + 1}")
-        cols[1].image(outputs[index])
+    n_focus = range(len(centers))
+    focus = [outputs[i] for i in n_focus]
+    focus = [mask_flattened(i) for i in focus]
+    results = [analyze_mask(i,'median',10) for i in focus]
     
     
