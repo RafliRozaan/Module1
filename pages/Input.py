@@ -486,8 +486,10 @@ predict_button = False
 
 # Create the Predict button outside of any conditional blocks
 st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
+st.markdown("<hr style='border-top: 2px solid ; margin-top: 0;'/>", unsafe_allow_html=True)
 st.markdown("<h2 style='text-align: left;'>Curve Predictions</h2>", unsafe_allow_html=True)
 predict_button = st.button('Digitze Curves')
+st.markdown("<hr style='border-top: 2px solid ; margin-top: 0;'/>", unsafe_allow_html=True)
 
 
 def plot_results(results, re_img, colors):
