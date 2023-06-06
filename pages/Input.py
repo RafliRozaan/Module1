@@ -273,6 +273,8 @@ def load_model():
     os.remove(tmp_file_path)
     return model
 
+bg_image = st.file_uploader("Background image:", type=["png", "jpg"])
+
 @st.cache_resource(experimental_allow_widgets=True)
 def mainfun():
     # Specify canvas parameters in application
@@ -285,7 +287,7 @@ def mainfun():
     v_line_color_2 = "black"
     bg_color = "#eee"
     st.markdown("<h2 style='text-align: left;'>Set the X and Y axis on the Figure</h2>", unsafe_allow_html=True)
-    bg_image = st.file_uploader("Background image:", type=["png", "jpg"])
+    
 
 
     N = 12
