@@ -504,12 +504,6 @@ def plot_results(fig, axs, results, re_img, colors):
         for ax in axs.flat:
             ax.axis('off')
 
-if 'results' not in st.session_state:
-    st.session_state['results'] = None
-
-if 'colors' not in st.session_state:
-    st.session_state['colors'] = []
-
 @st.cache_data
 def create_plots(N):
     rows = np.ceil(N / 3).astype(int)
@@ -525,7 +519,12 @@ fig,axs = create_plots(N)
 p = reset_predict()
 
 if predict_button:
-    p+=1
+    p = 1
+    if 'results' in st.session_state:
+        del st.session_state['results']
+    if 'colors' in st.session_state:
+        del st.session_state['colors'] 
+
     st.markdown("<h2 style='text-align: center;'>Output Result 📝</h2>", unsafe_allow_html=True)
     model = load_model()
     st.success('Model Successfully Loaded From Delfi')
@@ -536,22 +535,21 @@ if predict_button:
     threshold = 32 # example threshold value
     outputs, centers = predict_mask(re_img,re_mask,N)
 
-    st.session_state['outputs'] = outputs
-    st.session_state['centers'] = centers
-
     n_focus = range(len(centers))
     focus = [outputs[i] for i in n_focus]
     focus = [mask_flattened(i) for i in focus]
     results = [analyze_mask(i,'median',10) for i in focus]
+    st.session_state['results'] = results
     st.success('Analysis Done ! Plotting Candidates Curve')
     colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
-    st.session_state['results'] = results
-    st.session_state['colors'] = colors
+    st.session_state['colors']  = colors
     plot_results(fig, axs,results,re_img,colors)
 
 if bg_image and (p>0):
     plot_results(fig, axs, st.session_state['results'], np.asarray(Image.open(bg_image)),st.session_state['colors'])
 else:
+    st.write(p)
+    st.write(bg_image)
     for ax in axs.flat:
         ax.axis('off')
 
