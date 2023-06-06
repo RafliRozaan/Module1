@@ -563,13 +563,13 @@ def plot_results(fig, axs, results, re_img, colors):
         for ax in axs.flat:
             ax.axis('off')
 
-results = None
+if 'results' not in st.session_state:
+    results = None
+if 'colors' not in st.session_state:
+    colors=[]
+
 rows = np.ceil(N / 3).astype(int)
 fig, axs = plt.subplots(rows, 3, figsize=(10*N/2, 10), dpi=300)
-
-plot_results(fig, axs, results, np.asarray(Image.open(bg_image)),[])
-
-st.pyplot(fig)
 
 
 if predict_button:
@@ -592,6 +592,10 @@ if predict_button:
     results = [analyze_mask(i,'median',10) for i in focus]
     st.success('Analysis Done ! Plotting Candidates Curve')
     colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
+    st.session_state['results'] = results
+    st.session_state['colors'] = colors
     plot_results(fig, axs,results,re_img,colors)
 
 st.pyplot(fig)
+
+plot_results(fig, axs, results, np.asarray(Image.open(bg_image)),colors)
