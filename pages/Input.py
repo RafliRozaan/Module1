@@ -319,21 +319,21 @@ if bg_image is not None:
         canvas_resized = True
 
 # Add sliders to control the positions of the horizontal and vertical lines
-y_axis_scale = st.sidebar.selectbox("Y-Axis Scale", ["normal", "log"])
+y_axis_scale = st.selectbox("Y-Axis Scale", ["normal", "log"])
 
 st.sidebar.markdown("<b><span style='color:green'>Y-min (%):</span></b>", unsafe_allow_html=True)
-h_line_min_position = st.sidebar.slider("", 0, 100, 75,accuracy,key="ymin")
+h_line_min_position = st.slider("", 0, 100, 75,accuracy,key="ymin")
 
 st.sidebar.markdown("<b><span style='color:blue'>Y-max (%):</span></b>", unsafe_allow_html=True)
-h_line_max_position = st.sidebar.slider("", 0, 100, 25,accuracy,key="ymax")
+h_line_max_position = st.slider("", 0, 100, 25,accuracy,key="ymax")
 
-x_axis_scale = st.sidebar.selectbox("X-Axis Scale", ["normal", "log"])
+x_axis_scale = st.selectbox("X-Axis Scale", ["normal", "log"])
 
 st.sidebar.markdown("<b><span style='color:red'>X-min (%):</span></b>", unsafe_allow_html=True)
-v_line_min_position = st.sidebar.slider("", 0, 100, 25,accuracy,key="xmax")
+v_line_min_position = st.slider("", 0, 100, 25,accuracy,key="xmax")
 
 st.sidebar.markdown("<b><span style='color:black'>X-max (%):</span></b>", unsafe_allow_html=True)
-v_line_max_position = st.sidebar.slider("", 0, 100, 75,accuracy,key="xmin")
+v_line_max_position = st.slider("", 0, 100, 75,accuracy,key="xmin")
 
 
 
@@ -489,7 +489,6 @@ if reset_button:
         del st.session_state['centers']
 
 # Create the Predict button outside of any conditional blocks
-st.markdown("<h1 style='text-align: left;'>Curve Digitizer</h1>", unsafe_allow_html=True)
 st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
 st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_html=True)
 predict_button = st.button('load_model')
