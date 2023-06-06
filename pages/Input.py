@@ -663,7 +663,7 @@ def calculate_and_download_values():
         
         filtered_results.append((act_X, act_Y))
     
-    # Create a multi-indexed DataFrame from the results
+    # Create a multi-indexed DataFrame from the result
     df_data = {}
     for i, (X, Y) in enumerate(filtered_results):
         df_data[f"Curve-{i + 1}"] = {"X": X, "Y": Y}
