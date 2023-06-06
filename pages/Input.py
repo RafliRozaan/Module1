@@ -559,7 +559,7 @@ if predict_button:
     colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
     st.session_state['colors']  = colors
     images_list = plot_results(results,re_img,colors)
-    for i in image_list:
+    for i in images_list:
         st.image(i)
 
 
