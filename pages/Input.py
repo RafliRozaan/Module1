@@ -545,6 +545,33 @@ st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)
 st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_html=True)
 predict_button = st.button('load_model')
 
+def plot_results(fig, axs, results, re_img, colors):
+    if results is not None:
+        N = len(results)
+        for i in range(N):
+            row = i // 3
+            col = i % 3
+            axs[row][col].imshow(re_img, cmap='gray',alpha=0.3)
+            axs[row][col].plot(results[i][0], results[i][1], alpha=1, linewidth=1, c=colors[i])
+            axs[row][col].set_title('Prediction '+str(i))
+        for i in range(N, axs.shape[0] * axs.shape[1]):
+            row = i // 3
+            col = i % 3
+            axs[row][col].axis('off')
+        fig.subplots_adjust(wspace=0.1, hspace=0.4)
+    else:
+        for ax in axs.flat:
+            ax.axis('off')
+
+results = None
+rows = np.ceil(N / 3).astype(int)
+fig, axs = plt.subplots(rows, 3, figsize=(10*N/2, 10), dpi=300)
+
+plot_results(fig, axs, results, np.asarray(Image.open(bg_image)),[])
+
+st.pyplot(fig)
+
+
 if predict_button:
     st.markdown("<h2 style='text-align: center;'>Output Result 📝</h2>", unsafe_allow_html=True)
     model = load_model()
@@ -552,7 +579,6 @@ if predict_button:
     image = Image.open(bg_image)
     re_img,re_mask = predict_curves(np.asarray(image),model)
     st.success('Prediction Done ! Analyzing using Unsupervised Learning')
-    N = 10
     image = re_img
     threshold = 32 # example threshold value
     outputs, centers = predict_mask(re_img,re_mask,10)
@@ -566,24 +592,4 @@ if predict_button:
     results = [analyze_mask(i,'median',10) for i in focus]
     st.success('Analysis Done ! Plotting Candidates Curve')
     colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
-
-    def plot_results(results, re_img, colors):
-        N = len(results)
-        rows = np.ceil(N / 3).astype(int)
-        fig, axs = plt.subplots(rows, 3, figsize=(10, 10*N/2), dpi=300)
-        for i in range(N):
-            row = i // 3
-            col = i % 3
-            axs[row][col].imshow(re_img,alpha=0.5)
-            axs[row][col].plot(results[i][0], results[i][1], alpha=1, linewidth=0.5, marker='x', markersize=0.3, c=colors[i])
-            axs[row][col].set_title('Prediction '+str(i))
-        for i in range(N, rows * 3):
-            row = i // 3
-            col = i % 3
-            axs[row][col].axis('off')
-        fig.subplots_adjust(wspace=0.1, hspace=0.4)
-        st.pyplot(fig)
-
-
-
     plot_results(results,re_img,colors)
