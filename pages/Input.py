@@ -200,7 +200,6 @@ def predict_mask(img,mask,N):
         upper = np.array([min(255, c + threshold) for c in rgb_color])
         mask = cv2.inRange(img, lower, upper)
         output = cv2.bitwise_and(img, img, mask=mask)
-        output = black_to_white(output)
         outputs.append(output)
     return outputs, centers
 
@@ -507,6 +506,7 @@ if predict_button:
     image = re_img
     threshold = 32 # example threshold value
     outputs, centers = predict_mask(re_img,re_mask,10)
+
     st.session_state['outputs'] = outputs
     st.session_state['centers'] = centers
 
@@ -514,26 +514,47 @@ if predict_button:
     focus = [outputs[i] for i in n_focus]
     focus = [mask_flattened(i) for i in focus]
     results = [analyze_mask(i,'median',10) for i in focus]
-    
-    def plot_curves(results: list) -> None:
+
+
+    def plot_curves(results: list, image: np.ndarray) -> None:
         """
         Plot all the curves in the results list using plotly.
 
         :param results: A list of tuples containing the X and Y data for each curve.
+        :param image: A 3D numpy array representing the background image.
         """
+        # Get the shape of the image
+        M, N, _ = image.shape
+        
         # Create a new figure
         fig = go.Figure()
+        
+        # Add the background image to the figure
+        fig.add_layout_image(
+            dict(
+                source=image,
+                xref="x",
+                yref="y",
+                x=0,
+                y=M,
+                sizex=N,
+                sizey=M,
+                sizing="stretch",
+                opacity=1,
+                layer="below"
+            )
+        )
+        
+        # Set the axis range to match the image dimensions
+        fig.update_xaxes(range=[0, N])
+        fig.update_yaxes(range=[0, M])
         
         # Iterate through the results and add a scatter plot for each curve
         for i in range(len(results)):
             # Get the X and Y data for the current curve
             X = results[i][0]
             Y = results[i][1]
-            st.write(X)
-            st.write(len(X))
-            st.write(Y)
-            st.write(len(Y))
-            st.write("------------")
+            
             # Add a scatter plot to the figure
             fig.add_trace(
                 go.Scatter(x=X, y=Y, mode='lines', marker=dict(size=5), name=f"Curve {i+1}")
@@ -541,6 +562,7 @@ if predict_button:
         
         # Show the plot
         st.plotly_chart(fig)
+
 
     # Call the function to plot the curves
     plot_curves(results)
