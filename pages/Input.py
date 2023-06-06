@@ -383,7 +383,7 @@ def mainfun():
     v_line_max_x = int(width * v_line_max_position / 100)
 
 # Create a canvas component
-main()
+mainfun()
 col3, col4 = st.columns((0.1,1))
 with col4:
     canvas_result = st_canvas(
