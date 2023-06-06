@@ -498,7 +498,6 @@ if predict_button:
     model = load_model()
     st.success('Model Successfully Loaded From Delfi')
     image = Image.open(bg_image)
-    st.write(np.asarray(image).shape)
     re_img,re_mask = predict_curves(np.asarray(image),model)
     st.success('Prediction Done ! Analyzing using Unsupervised Learning')
     N = 10
