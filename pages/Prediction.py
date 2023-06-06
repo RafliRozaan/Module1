@@ -29,7 +29,6 @@ canvas_result = st_canvas(
     update_streamlit=realtime_update,
     height=150,
     drawing_mode=drawing_mode,
-    point_display_radius=point_display_radius if drawing_mode == 'point' else 0,
     key="canvas",
 )
 
