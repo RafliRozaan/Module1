@@ -490,7 +490,7 @@ st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_ht
 predict_button = st.button('Digitze Curves')
 
 def plot_results(fig, axs, results, re_img, colors):
-    if results is not None or re_img != None:
+    if results is not None and re_img != None:
         re_img = np.asarray(Image.open(re_img))
         for i in range(N):
             row = i // 3
