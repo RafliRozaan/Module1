@@ -338,6 +338,9 @@ canvas_result = st_canvas(
 
 
 
+# Define the predict_button variable before it is used
+predict_button = False
+
 if st.button('Save line positions'):
     df = pd.DataFrame({
         'h_line_min_y': [h_line_min_y],
