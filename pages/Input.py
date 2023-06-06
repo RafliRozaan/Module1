@@ -565,5 +565,5 @@ if predict_button:
 
 
     # Call the function to plot the curves
-    plot_curves(results,Image.fromarray(re_img))
+    plot_curves(results,re_img)
 
