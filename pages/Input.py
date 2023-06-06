@@ -471,7 +471,7 @@ with col4:
     width=width,
 )
 
-@st.cache_resource
+@st.cache_resource(experimental_allow_widgets=True)
 def main2():
 
     # Define the predict_button variable before it is used
