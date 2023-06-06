@@ -273,121 +273,117 @@ def load_model():
     os.remove(tmp_file_path)
     return model
 
+@st.cache_resource
+def mainfun():
+    # Specify canvas parameters in application
+    drawing_mode = 'line'
 
-if 'outputs' in st.session_state:
-    del st.session_state['outputs']
-if 'centers' in st.session_state:
-    del st.session_state['centers']
-
-# Specify canvas parameters in application
-drawing_mode = 'line'
-
-stroke_width = st.sidebar.slider("Stroke width: ", 1, 25, 2)
-h_line_color_1 = "blue"
-h_line_color_2 = "green"
-v_line_color_1 = "red"
-v_line_color_2 = "black"
-bg_color = "#eee"
-st.markdown("<h2 style='text-align: left;'>Set the X and Y axis on the Figure</h2>", unsafe_allow_html=True)
-bg_image = st.file_uploader("Background image:", type=["png", "jpg"])
+    stroke_width = st.sidebar.slider("Stroke width: ", 1, 25, 2)
+    h_line_color_1 = "blue"
+    h_line_color_2 = "green"
+    v_line_color_1 = "red"
+    v_line_color_2 = "black"
+    bg_color = "#eee"
+    st.markdown("<h2 style='text-align: left;'>Set the X and Y axis on the Figure</h2>", unsafe_allow_html=True)
+    bg_image = st.file_uploader("Background image:", type=["png", "jpg"])
 
 
-N = 12
+    N = 12
 
-realtime_update = True
-accuracy = 1
-width = 800
-height = 800
+    realtime_update = True
+    accuracy = 1
+    width = 800
+    height = 800
 
-canvas_resized = False
+    canvas_resized = False
 
-if bg_image is not None:
-    crop_sizes = 32*10
-    image = Image.open(bg_image)
-    c_img, ri = crop_image_v2(np.asarray(image),(crop_sizes,crop_sizes),255)
-    image = Image.fromarray(uncrop_image_v2(c_img,ri).astype('uint8'), 'RGB')
-    width, height = image.size
-    max_length = 800
-    if height > max_length:
-        ratio = max_length / float(height)
-        width = int(ratio * width)
-        height = max_length
-        image = image.resize((width, height), Image.LANCZOS)
-        canvas_resized = True
+    if bg_image is not None:
+        crop_sizes = 32*10
+        image = Image.open(bg_image)
+        c_img, ri = crop_image_v2(np.asarray(image),(crop_sizes,crop_sizes),255)
+        image = Image.fromarray(uncrop_image_v2(c_img,ri).astype('uint8'), 'RGB')
+        width, height = image.size
+        max_length = 800
+        if height > max_length:
+            ratio = max_length / float(height)
+            width = int(ratio * width)
+            height = max_length
+            image = image.resize((width, height), Image.LANCZOS)
+            canvas_resized = True
 
-# Define the custom CSS styles
-styles = """
-<style>
-.column {
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    padding: 10px;
-}
-</style>
-
-
-"""
-
-canvas_css = """
-.stMarkdown {
-    display: grid;
-    place-items: center !important;
-}
-"""
-st.markdown(f'<style>{canvas_css}</style>', unsafe_allow_html=True)  # to center title for reference
+    # Define the custom CSS styles
+    styles = """
+    <style>
+    .column {
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    </style>
 
 
-# Add the custom CSS styles to the page
-st.markdown(styles, unsafe_allow_html=True)
+    """
 
-# Create a 1x2 layout for the sliders
-# Create a 1x2 layout for the sliders
-col1, col2 = st.sidebar.columns(2)
-
-# Add sliders to control the positions of the horizontal lines in the first column
-with col1:
-    st.markdown("<div class='column'>", unsafe_allow_html=True)
-    st.markdown("<b>Y-Axis</b>", unsafe_allow_html=True)
-    y_axis_scale = st.selectbox("Scale", ["normal", "log"], key="y_axis_scale")
-    y_min_value = st.text_input("Value min", key="y_min_value")
-    y_max_value = st.text_input("Value max", key="y_max_value")
-    st.markdown("<b><span style='color:green'>Y-min (%):</span></b>", unsafe_allow_html=True)
-    h_line_min_position = st.slider("", 0, 100, 75,accuracy,key="ymin")
-    st.markdown("<b><span style='color:blue'>Y-max (%):</span></b>", unsafe_allow_html=True)
-    h_line_max_position = st.slider("", 0, 100, 25,accuracy,key="ymax")
-    st.markdown("</div>", unsafe_allow_html=True)
-
-# Add sliders to control the positions of the vertical lines in the second column
-with col2:
-    st.markdown("<div class='column'>", unsafe_allow_html=True)
-    st.markdown("<b>X-Axis</b>", unsafe_allow_html=True)
-    x_axis_scale = st.selectbox("Scale", ["normal", "log"], key="x_axis_scale")
-    x_min_value = st.text_input("Value min", key="x_min_value")
-    x_max_value = st.text_input("Value max", key="x_max_value")
-    st.markdown("<b><span style='color:red'>X-min (%):</span></b>", unsafe_allow_html=True)
-    v_line_min_position = st.slider("", 0, 100, 25,accuracy,key="xmax")
-    st.markdown("<b><span style='color:black'>X-max (%):</span></b>", unsafe_allow_html=True)
-    v_line_max_position = st.slider("", 0, 100, 75,accuracy,key="xmin")
-    st.markdown("</div>", unsafe_allow_html=True)
-
-# Add a horizontal line to separate the sections
-st.sidebar.markdown("<hr/>", unsafe_allow_html=True)
-
-# Add a new section with a 6x2 grid of checkboxes
-st.markdown("<b><span style='color:black'>Predictions</span></b>", unsafe_allow_html=True)
-cols = st.sidebar.columns(2)
-for i in range(1, 13):
-    cols[(i - 1) % 2].checkbox(f"Prediction {i}", key=f"prediction_{i}")
+    canvas_css = """
+    .stMarkdown {
+        display: grid;
+        place-items: center !important;
+    }
+    """
+    st.markdown(f'<style>{canvas_css}</style>', unsafe_allow_html=True)  # to center title for reference
 
 
-# Calculate the y-coordinates of the horizontal lines and the x-coordinates of the vertical lines based on the slider values
-h_line_min_y = int(height * h_line_min_position / 100)
-h_line_max_y = int(height * h_line_max_position / 100)
-v_line_min_x = int(width * v_line_min_position / 100)
-v_line_max_x = int(width * v_line_max_position / 100)
+    # Add the custom CSS styles to the page
+    st.markdown(styles, unsafe_allow_html=True)
+
+    # Create a 1x2 layout for the sliders
+    # Create a 1x2 layout for the sliders
+    col1, col2 = st.sidebar.columns(2)
+
+    # Add sliders to control the positions of the horizontal lines in the first column
+    with col1:
+        st.markdown("<div class='column'>", unsafe_allow_html=True)
+        st.markdown("<b>Y-Axis</b>", unsafe_allow_html=True)
+        y_axis_scale = st.selectbox("Scale", ["normal", "log"], key="y_axis_scale")
+        y_min_value = st.text_input("Value min", key="y_min_value")
+        y_max_value = st.text_input("Value max", key="y_max_value")
+        st.markdown("<b><span style='color:green'>Y-min (%):</span></b>", unsafe_allow_html=True)
+        h_line_min_position = st.slider("", 0, 100, 75,accuracy,key="ymin")
+        st.markdown("<b><span style='color:blue'>Y-max (%):</span></b>", unsafe_allow_html=True)
+        h_line_max_position = st.slider("", 0, 100, 25,accuracy,key="ymax")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # Add sliders to control the positions of the vertical lines in the second column
+    with col2:
+        st.markdown("<div class='column'>", unsafe_allow_html=True)
+        st.markdown("<b>X-Axis</b>", unsafe_allow_html=True)
+        x_axis_scale = st.selectbox("Scale", ["normal", "log"], key="x_axis_scale")
+        x_min_value = st.text_input("Value min", key="x_min_value")
+        x_max_value = st.text_input("Value max", key="x_max_value")
+        st.markdown("<b><span style='color:red'>X-min (%):</span></b>", unsafe_allow_html=True)
+        v_line_min_position = st.slider("", 0, 100, 25,accuracy,key="xmax")
+        st.markdown("<b><span style='color:black'>X-max (%):</span></b>", unsafe_allow_html=True)
+        v_line_max_position = st.slider("", 0, 100, 75,accuracy,key="xmin")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # Add a horizontal line to separate the sections
+    st.sidebar.markdown("<hr/>", unsafe_allow_html=True)
+
+    # Add a new section with a 6x2 grid of checkboxes
+    st.markdown("<b><span style='color:black'>Predictions</span></b>", unsafe_allow_html=True)
+    cols = st.sidebar.columns(2)
+    for i in range(1, 13):
+        cols[(i - 1) % 2].checkbox(f"Prediction {i}", key=f"prediction_{i}")
+
+
+    # Calculate the y-coordinates of the horizontal lines and the x-coordinates of the vertical lines based on the slider values
+    h_line_min_y = int(height * h_line_min_position / 100)
+    h_line_max_y = int(height * h_line_max_position / 100)
+    v_line_min_x = int(width * v_line_min_position / 100)
+    v_line_max_x = int(width * v_line_max_position / 100)
 
 # Create a canvas component
-
+main()
 col3, col4 = st.columns((0.1,1))
 with col4:
     canvas_result = st_canvas(
@@ -475,17 +471,16 @@ with col4:
     width=width,
 )
 
+@st.cache_resource
+def main2():
 
+    # Define the predict_button variable before it is used
+    predict_button = False
 
-
-
-# Define the predict_button variable before it is used
-predict_button = False
-
-# Create the Predict button outside of any conditional blocks
-st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
-st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_html=True)
-predict_button = st.button('Digitze Curves')
+    # Create the Predict button outside of any conditional blocks
+    st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
+    st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_html=True)
+    predict_button = st.button('Digitze Curves')
 
 def plot_results(fig, axs, results, re_img, colors):
     if (results != None):
@@ -503,6 +498,8 @@ def plot_results(fig, axs, results, re_img, colors):
     else:
         for ax in axs.flat:
             ax.axis('off')
+
+main2()
 
 @st.cache_data
 def create_plots(N):
@@ -617,16 +614,15 @@ def calculate_and_download_values():
     df = pd.DataFrame(df_data).stack().apply(pd.Series).reset_index(level=1).rename(columns={"level_1": "Curve"})
 
     # Download the DataFrame as an Excel file
-    st.session_state['df'] = df.to_csv("results.csv", index=False)
-    
+    df = df.to_csv("results.csv", index=False).encode('utf-8')
+    st.download_button(
+        label="Download data as CSV",
+        data=df,
+        file_name='large_df.csv',
+        mime='text/csv',
+    )
     st.success("Values calculated and downloaded successfully")
 
 st.markdown("<h2 style='text-align: left;'>Calculate and Download Values</h2>", unsafe_allow_html=True)
 calculate_button = st.button('Calculate and Download Values', on_click=calculate_and_download_values)
 
-st.download_button(
-    label="Download data as CSV",
-    data=st.session_state['df'],
-    file_name='large_df.csv',
-    mime='text/csv',
-)
