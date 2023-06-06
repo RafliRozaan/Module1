@@ -347,9 +347,9 @@ with col1:
     y_min_value = st.text_input("Value min", key="y_min_value")
     y_max_value = st.text_input("Value max", key="y_max_value")
     st.markdown("<b><span style='color:green'>Y-min (%):</span></b>", unsafe_allow_html=True)
-    h_line_min_position = st.slider("", 0, 100, 75,accuracy,key="ymin")
+    h_line_min_position = st.slider("hmin", 0, 100, 75,accuracy,key="ymin")
     st.markdown("<b><span style='color:blue'>Y-max (%):</span></b>", unsafe_allow_html=True)
-    h_line_max_position = st.slider("", 0, 100, 25,accuracy,key="ymax")
+    h_line_max_position = st.slider("hmax", 0, 100, 25,accuracy,key="ymax")
     st.markdown("</div>", unsafe_allow_html=True)
 
 # Add sliders to control the positions of the vertical lines in the second column
@@ -360,9 +360,9 @@ with col2:
     x_min_value = st.text_input("Value min", key="x_min_value")
     x_max_value = st.text_input("Value max", key="x_max_value")
     st.markdown("<b><span style='color:red'>X-min (%):</span></b>", unsafe_allow_html=True)
-    v_line_min_position = st.slider("", 0, 100, 25,accuracy,key="xmax")
+    v_line_min_position = st.slider("vmin", 0, 100, 25,accuracy,key="xmax")
     st.markdown("<b><span style='color:black'>X-max (%):</span></b>", unsafe_allow_html=True)
-    v_line_max_position = st.slider("", 0, 100, 75,accuracy,key="xmin")
+    v_line_max_position = st.slider("vmax", 0, 100, 75,accuracy,key="xmin")
     st.markdown("</div>", unsafe_allow_html=True)
 
 # Add a horizontal line to separate the sections
