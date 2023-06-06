@@ -338,7 +338,6 @@ canvas_result = st_canvas(
 
 
 
-# Add a button to save the line positions as a CSV file
 if st.button('Save line positions'):
     df = pd.DataFrame({
         'h_line_min_y': [h_line_min_y],
@@ -350,13 +349,20 @@ if st.button('Save line positions'):
         'body_width': [width],
         'body_height': [height]
     })
-    #df.to_csv('line_positions.csv', index=False)
+
     st.success('Line positions and image dimensions saved as CSV file')
     
-    # Save the uploaded image as prediction_target.jpg
-    #if bg_image is not None:
-    #    image = Image.open(bg_image)
-    #    image.save('prediction_target.jpg')
+    st.markdown("<h1 style='text-align: left;'>Curve Digitizer</h1>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
+    st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_html=True)
+    predict_button = st.button('load_model')
+    
+    # Save the image and dataframe to session state
+    if bg_image is not None:
+        image = Image.open(bg_image)
+        image_data = np.asarray(image)
+        st.session_state['image_data'] = image_data
+    st.session_state['df'] = df
 
 if st.button('Reset line positions'):
     df = pd.DataFrame({
@@ -369,18 +375,16 @@ if st.button('Reset line positions'):
         'body_width': [0],
         'body_height': [0]
     })
-    #df.to_csv('line_positions.csv', index=False)
+    
+
     st.success('Line positions and image dimensions reset to 0')
     
-    # Delete the prediction_target.jpg file
-    if os.path.exists('prediction_target.jpg'):
-        os.remove('prediction_target.jpg')
-
-
-st.markdown("<h1 style='text-align: left;'>Curve Digitizer</h1>", unsafe_allow_html=True)
-st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
-st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_html=True)
-predict_button = st.button('load_model')
+    # Remove the saved image and dataframe from session state
+    if 'image_data' in st.session_state:
+        del st.session_state['image_data']
+    if 'df' in st.session_state:
+        del st.session_state['df']
+    
 
 if predict_button:
     host = "https://ai-schlumberger-eag-consulting.p.datascience.cloud.slb-ds.com"
