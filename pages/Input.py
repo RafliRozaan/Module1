@@ -525,7 +525,10 @@ if predict_button:
             row = i // 3
             col = i % 3
             axs[row][col].imshow(re_img, alpha=0.3)
-            axs[row][col].plot(results[i][0], results[i][1], alpha=1, linewidth=0, marker='.', markersize=0.75, c=colors[i])
+            axs[row][col].plot(results[i][0], results[i][1], alpha=1, linewidth=1, markersize=0.75, c=colors[i])
             axs[row][col].set_title('Prediction '+str(i))
+            if not st.checkbox(f"Show Prediction {i}", value=True):
+                axs[row][col].remove()
         st.pyplot(fig)
+
     plot_results(results,re_img,colors)
