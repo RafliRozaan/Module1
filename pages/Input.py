@@ -569,8 +569,8 @@ def calculate_and_download_values():
     
     # Calculate the positions of the boundary lines
 
-    st.write(orig_width)
-    st.write(orig_height)
+    #st.write(orig_width)
+    #st.write(orig_height)
 
     h_line_max_y = int(height * h_line_min_position / 100)
     h_line_min_y = int(height * h_line_max_position / 100)
@@ -602,7 +602,7 @@ def calculate_and_download_values():
 
     # Select the results based on the checked checkboxes
     sel_results = [st.session_state['results'][i] for i in range(12) if st.session_state[f"prediction_{i + 1}"]]
-    st.write(sel_results)
+    #st.write(sel_results)
     # Filter the results based on the boundary lines
     filtered_results = []
     for X, Y in sel_results:
