@@ -499,7 +499,7 @@ def plot_results(fig, axs, results, re_img, colors):
         for ax in axs.flat:
             ax.axis('off')
 
-@st.cache_data(hash_funcs={matplotlib.figure.Figure: lambda _: None})
+@st.cache_data()
 def create_plots(N):
     rows = np.ceil(N / 3).astype(int)
     fig, axs = plt.subplots(rows, 3, figsize=(10, 10*N/2), dpi=300)
