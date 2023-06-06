@@ -512,8 +512,15 @@ if 'results' not in st.session_state:
 if 'colors' not in st.session_state:
     st.session_state['colors'] = []
 
-rows = np.ceil(N / 3).astype(int)
-fig, axs = plt.subplots(rows, 3, figsize=(10, 10*N/2), dpi=300)
+@st.cache_data
+def create_plots(N):
+    if fig != None:
+        plt.close(fig)
+    rows = np.ceil(N / 3).astype(int)
+    fig, axs = plt.subplots(rows, 3, figsize=(10, 10*N/2), dpi=300)
+    return fig,axs
+
+fig,axs = create_plots(N)
 
 
 if predict_button:
