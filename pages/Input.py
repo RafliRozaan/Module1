@@ -593,3 +593,5 @@ if predict_button:
     st.success('Analysis Done ! Plotting Candidates Curve')
     colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
     plot_results(fig, axs,results,re_img,colors)
+    
+st.pyplot(fig)
