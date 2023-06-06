@@ -3,7 +3,7 @@ import streamlit as st
 st.set_page_config(layout="wide",page_title="Curve Digitalization",page_icon="📈",)
 
 st.markdown("<h1 style='text-align: center;'>Line Curve Digitalization</h1>", unsafe_allow_html=True)
-desc = st.tabs(["Description"])
+desc = st.tabs("Description")
 
 
 css = """
