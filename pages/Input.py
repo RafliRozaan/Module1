@@ -204,7 +204,7 @@ def predict_mask(img,mask,N):
 
 #Preprocessing Lib End
 
-@st.cache
+@st.cache_resource
 def load_model():
     host = "https://ai-schlumberger-eag-consulting.p.datascience.cloud.slb-ds.com"
     apiKey = 'CvyAhYL5Y1AO5VLd1aNDUUVSrgXRBFjL'
