@@ -525,10 +525,10 @@ if predict_button:
         """
         # Get the shape of the image
         M, N, _ = image.shape
-        
+
         # Create a new figure
         fig = go.Figure()
-        
+
         # Add the background image to the figure
         fig.add_layout_image(
             dict(
@@ -544,29 +544,71 @@ if predict_button:
                 layer="below"
             )
         )
-        
+
         # Set the axis range to match the image dimensions
         fig.update_xaxes(range=[0, N])
         fig.update_yaxes(range=[0, M])
-        
-        # Iterate through the results and add a scatter plot for each curve
-        for i in range(len(results)):
-            # Get the X and Y data for the current curve
-            X = results[i][0]
-            Y = results[i][1]
-            
-            # Add a scatter plot to the figure
-            fig.add_trace(
-                go.Scatter(x=X, y=Y, mode='lines', marker=dict(size=5), name=f"Curve {i+1}")
-            )
+
+        # Set the aspect ratio of the plot to match the image
         fig.update_layout(
             yaxis=dict(
                 scaleanchor="x",
                 scaleratio=M/N
             )
         )
+
+        # Create a list to store the scatter plots for each curve
+        scatters = []
+
+        # Iterate through the results and add a scatter plot for each curve
+        for i in range(len(results)):
+            # Get the X and Y data for the current curve
+            X = results[i][0]
+            Y = results[i][1]
+
+            # Add a scatter plot to the figure
+            scatters.append(
+                go.Scatter(x=X, y=Y, mode='lines', marker=dict(size=5), name=f"Curve {i+1}", visible=False)
+            )
+
+        # Set the first scatter plot to be visible by default
+        scatters[0].visible = True
+
+        # Add all scatter plots to the figure
+        fig.add_traces(scatters)
+
+        # Create a list of buttons for the dropdown menu
+        buttons = []
+
+        # Iterate through the results and create a button for each curve
+        for i in range(len(results)):
+            buttons.append(
+                dict(
+                    label=f"Curve {i+1}",
+                    method="update",
+                    args=[{"visible": [j == i for j in range(len(results))]}]
+                )
+            )
+
+        # Add a dropdown menu to the figure
+        fig.update_layout(
+            updatemenus=[
+                dict(
+                    buttons=buttons,
+                    direction="down",
+                    pad={"r": 10, "t": 10},
+                    showactive=True,
+                    x=0.1,
+                    xanchor="left",
+                    y=1.1,
+                    yanchor="top"
+                ),
+            ]
+        )
+
         # Show the plot
         st.plotly_chart(fig)
+
 
 
     # Call the function to plot the curves
