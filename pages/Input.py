@@ -516,7 +516,7 @@ if predict_button:
     results = [analyze_mask(i,'median',10) for i in focus]
 
 
-def plot_curves(results: list, image: np.ndarray) -> None:
+    def plot_curves(results: list, image: np.ndarray) -> None:
         """
         Plot all the curves in the results list using plotly.
 
@@ -595,6 +595,8 @@ def plot_curves(results: list, image: np.ndarray) -> None:
             update_plot(current_curve)
 
 
-# Call the function to plot the curves
-plot_curves(results,re_img)
+
+
+    # Call the function to plot the curves
+    plot_curves(results,re_img)
 
