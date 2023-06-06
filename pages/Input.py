@@ -542,7 +542,6 @@ if predict_button:
     st.session_state['colors'] = colors
     plot_results(fig, axs,results,re_img,colors)
 
-st.write(st.session_state['results'])
 plot_results(fig, axs, st.session_state['results'], bg_image,st.session_state['colors'])
 st.pyplot(fig)
 
