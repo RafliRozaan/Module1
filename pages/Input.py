@@ -521,13 +521,17 @@ if predict_button:
         N = len(results)
         rows = np.ceil(N / 3).astype(int)
         fig, axs = plt.subplots(rows, 3, figsize=(10, 10), dpi=300)
+        show_predictions = []
+        for i in range(N):
+            show_predictions.append(st.checkbox(f"Show Prediction {i}", value=True))
         for i in range(N):
             row = i // 3
             col = i % 3
-            axs[row][col].imshow(re_img, alpha=0.3)
-            axs[row][col].plot(results[i][0], results[i][1], alpha=1, linewidth=1, markersize=0.75, c=colors[i])
-            axs[row][col].set_title('Prediction '+str(i))
-            if not st.checkbox(f"Show Prediction {i}", value=True):
+            if show_predictions[i]:
+                axs[row][col].imshow(re_img, alpha=0.3)
+                axs[row][col].plot(results[i][0], results[i][1], alpha=1, linewidth=0, marker='.', markersize=0.75, c=colors[i])
+                axs[row][col].set_title('Prediction '+str(i))
+            else:
                 axs[row][col].remove()
         st.pyplot(fig)
 
