@@ -512,33 +512,25 @@ predict_button = st.button('Digitze Curves')
 
 
 def plot_results(results, re_img, colors):
-    rows = np.ceil(N / 3).astype(int)
-    fig, axs = plt.subplots(rows, 3, figsize=(10, 10*N/2), dpi=300)
+    images = []
     for i in range(N):
-        row = i // 3
-        col = i % 3
-        axs[row][col].imshow(re_img, cmap='jet',alpha=0.2)
-        axs[row][col].plot(results[i][0], results[i][1], alpha=0.5, linewidth=0.2, marker='.',markersize=0.55,c=colors[i])
-        axs[row][col].set_title('Prediction '+str(i+1))
-    for i in range(N, axs.shape[0] * axs.shape[1]):
-        row = i // 3
-        col = i % 3
-        axs[row][col].axis('off')
-    fig.subplots_adjust(wspace=0.1, hspace=0.4)
+        fig, ax = plt.subplots()
+        ax.imshow(re_img, cmap='jet',alpha=0.2)
+        ax.plot(results[i][0], results[i][1], alpha=0.5, linewidth=0.2, marker='.',markersize=0.55,c=colors[i])
+        ax.set_title('Prediction '+str(i+1))
+        fig.subplots_adjust(wspace=0.1, hspace=0.4)
 
-    # Convert the figure to an image
-    buf = io.BytesIO()
-    fig.savefig(buf, format="png")
-    buf.seek(0)
-    img = Image.open(buf)
+        # Convert the figure to an image
+        buf = io.BytesIO()
+        fig.savefig(buf, format="png")
+        buf.seek(0)
+        img = Image.open(buf)
+        images.append(img)
 
-    # Close the figure
-    plt.close(fig)
+        # Close the figure
+        plt.close(fig)
 
-    # Plot the image using streamlit.image
-    st.image(img)
-
-st.session_state['df'] = []
+    return images
 
 
 if predict_button:
@@ -566,7 +558,7 @@ if predict_button:
     st.success('Analysis Done ! Plotting Candidates Curve')
     colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
     st.session_state['colors']  = colors
-    plot_results(results,re_img,colors)
+    images_list = plot_results(results,re_img,colors)
 
 
 def calculate_and_download_values():
