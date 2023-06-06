@@ -593,7 +593,7 @@ def calculate_and_download_values():
     image = Image.open(bg_image)
     orig_width, orig_height = image.size
     max_length = 800
-    if orig_height > max_length:
+    if orig_height < max_length:
         ratio = max_length / float(orig_height)
         width = int(ratio * orig_width)
         height = max_length
