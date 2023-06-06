@@ -2,7 +2,7 @@ import streamlit as st
 
 
 st.set_page_config(layout="wide",page_title="Curve Digitalization",page_icon="📈",)
-st.image('http://thepetro.cloud/wp-content/uploads/2023/05/Petrocloud.png',width=200)
+st.image('http://thepetro.cloud/wp-content/uploads/2023/05/Petrocloud.png',width=100)
 st.markdown("<h1 style='text-align: center;'>Line Curve Digitalization</h1>", unsafe_allow_html=True)
 
 
