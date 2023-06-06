@@ -509,62 +509,35 @@ if predict_button:
     outputs, centers = predict_mask(re_img,re_mask,10)
     st.session_state['outputs'] = outputs
     st.session_state['centers'] = centers
-    n_focus = range(len(centers))
 
+    n_focus = range(len(centers))
     focus = [outputs[i] for i in n_focus]
     focus = [mask_flattened(i) for i in focus]
     results = [analyze_mask(i,'median',10) for i in focus]
-
-    # Iterate through the outputs and display each image using Streamlit
-    for i in range(len(outputs)):
-        # Convert the numpy array to a PIL.Image.Image object
-        output_image = Image.fromarray(outputs[i])
     
-        # Display the image using Streamlit
-        st.image(output_image, caption=f"Output {i+1}")
-        def create_datapoint_images(results: list, width: int, height: int) -> list:
-            """
-            Create a list of 2D images from the X and Y data in the results list.
+    def plot_curves(results: list) -> None:
+        """
+        Plot all the curves in the results list using plotly.
 
-            :param results: A list of tuples containing the X and Y data for each curve.
-            :param width: The width of the output images.
-            :param height: The height of the output images.
-            :return: A list of 2D numpy arrays representing the images.
-            """
-            # Initialize an empty list to store the output images
-            output_images = []
-            
-            # Iterate through the results
-            for i in range(len(results)):
-                # Get the X and Y data for the current curve
-                X = results[i][0]
-                Y = results[i][1]
-                
-                # Scale the X and Y values to the range [0, width-1] and [0, height-1], respectively
-                X = np.clip((X * (width - 1)).astype(int), 0, width - 1)
-                Y = np.clip((Y * (height - 1)).astype(int), 0, height - 1)
-                
-                # Create an empty image filled with white pixels
-                image = np.full((height, width), 255, dtype=np.uint8)
-                
-                # Set the pixels at the datapoint positions to black
-                image[Y, X] = 0
-                
-                # Add the image to the output list
-                output_images.append(image)
-            
-            return output_images
-
-
-    # Call the function to create the datapoint images
-    datapoint_images = create_datapoint_images(results, width, height)
-
-    # Iterate through the datapoint images and display each one using Streamlit
-    for i in range(len(datapoint_images)):
-        # Convert the numpy array to a PIL.Image.Image object
-        datapoint_image = Image.fromarray(datapoint_images[i])
+        :param results: A list of tuples containing the X and Y data for each curve.
+        """
+        # Create a new figure
+        fig = go.Figure()
         
-        # Display the image using Streamlit
-        st.image(datapoint_image, caption=f"Datapoints {i+1}")
+        # Iterate through the results and add a scatter plot for each curve
+        for i in range(len(results)):
+            # Get the X and Y data for the current curve
+            X = results[i][0]
+            Y = results[i][1]
+            
+            # Add a scatter plot to the figure
+            fig.add_trace(
+                go.Scatter(x=X, y=Y, mode='lines', marker=dict(size=5), name=f"Curve {i+1}")
+            )
+        
+        # Show the plot
+        st.plotly_chart(fig)
 
-    
+    # Call the function to plot the curves
+    plot_curves(results)
+
