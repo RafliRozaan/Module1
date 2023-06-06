@@ -530,6 +530,7 @@ if predict_button:
     if "images_list" in st.session_state:
         del st.session_state["images_list"]
     st.markdown("<h2 style='text-align: center;'>Output Result 📝</h2>", unsafe_allow_html=True)
+    st.success('Connecting to Dataiku DSS Platform')
     model = load_model()
     st.success('Model Successfully Loaded From Delfi')
     image = Image.open(bg_image)
