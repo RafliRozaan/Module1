@@ -127,7 +127,7 @@ def predict_curves(img,model):
     p = model.predict(c_img/255.0)
 
     p[p <= 0.9] = 0
-    p[p > 0.9] = 255
+    p[p > 0.9] = 1
     re_mask = uncrop_image_v2(p,ri)
     re_img = uncrop_image_v2(c_img,ri)
     
