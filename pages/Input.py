@@ -514,7 +514,8 @@ if predict_button:
     focus = [outputs[i] for i in n_focus]
     focus = [mask_flattened(i) for i in focus]
     results = [analyze_mask(i,'median',10) for i in focus]
-
+    colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
+    
     def plot_results(results, re_img, colors):
         N = len(results)
         rows = np.ceil(N / 3).astype(int)
@@ -526,4 +527,4 @@ if predict_button:
             axs[row][col].plot(results[i][0], results[i][1], alpha=1, linewidth=0, marker='.', markersize=0.75, c=colors[i])
             axs[row][col].set_title('Prediction '+str(i))
         st.pyplot(fig)
-    
+    plot_results(results,re_img,)
