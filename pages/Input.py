@@ -528,4 +528,4 @@ if predict_button:
             axs[row][col].plot(results[i][0], results[i][1], alpha=1, linewidth=0, marker='.', markersize=0.75, c=colors[i])
             axs[row][col].set_title('Prediction '+str(i))
         st.pyplot(fig)
-    plot_results(results,re_img,)
+    plot_results(results,re_img,colors)
