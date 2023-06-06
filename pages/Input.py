@@ -366,7 +366,7 @@ with col2:
 st.sidebar.markdown("<hr/>", unsafe_allow_html=True)
 
 # Add a new section with a 4x3 grid of checkboxes
-st.sidebar.markdown("<h4>Predictions:</h4>")
+st.sidebar.markdown("<b>Predictions:<b>")
 cols = st.sidebar.columns(3)
 for i in range(1, 13):
     cols[(i - 1) % 3].checkbox(f"Prediction {i}", key=f"prediction_{i}")
