@@ -559,7 +559,12 @@ if predict_button:
             fig.add_trace(
                 go.Scatter(x=X, y=Y, mode='lines', marker=dict(size=5), name=f"Curve {i+1}")
             )
-        
+        fig.update_layout(
+            yaxis=dict(
+                scaleanchor="x",
+                scaleratio=M/N
+            )
+        )
         # Show the plot
         st.plotly_chart(fig)
 
