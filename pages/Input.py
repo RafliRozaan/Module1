@@ -274,7 +274,7 @@ def load_model():
     return model
 
 @st.cache_resource
-def mainfun():
+def mainfun(experimental_allow_widgets=True):
     # Specify canvas parameters in application
     drawing_mode = 'line'
 
