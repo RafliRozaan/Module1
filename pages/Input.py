@@ -272,13 +272,12 @@ def load_model():
     return model
 
 #Preprocessing Lib End
-@st.cache_data(experimental_allow_widgets=True)
-def mainfun():
-    # Specify canvas parameters in application
-    drawing_mode = 'line'
 
-    stroke_width = st.sidebar.slider("Stroke width: ", 1, 25, 2)
-mainfun()
+
+# Specify canvas parameters in application
+drawing_mode = 'line'
+
+stroke_width = st.sidebar.slider("Stroke width: ", 1, 25, 2)
 h_line_color_1 = "blue"
 h_line_color_2 = "green"
 v_line_color_1 = "red"
