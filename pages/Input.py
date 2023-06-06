@@ -371,7 +371,7 @@ get_widgets()
 
 if "y_axis_scale" not in st.session_state:
     get_widgets()
-    
+
 y_axis_scale = st.session_state.y_axis_scale
 y_min_value = st.session_state.y_min_value
 y_max_value = st.session_state.y_max_value
@@ -575,14 +575,18 @@ def get_table_download_link(df):
 
 
 def calculate_and_download_values():
+
     if bg_image is None or st.session_state['results'] is None:
         st.error("You Must do Prediction First")
         return
+    
     if not any(st.session_state[f"prediction_{i}"] for i in range(1, 13)):
         st.error("Pick at least one prediction to download")
         return
     
     # Calculate the original and resized dimensions of the image
+
+    st.write("called")
     image = Image.open(bg_image)
     orig_width, orig_height = image.size
     max_length = 800
@@ -665,11 +669,6 @@ def calculate_and_download_values():
 
     st.write(nonexistant)
     # Download the DataFrame as an Excel file
-
-    @st.cache_data
-    def convert_df(df):
-        return df.to_csv("results.csv", index=False, encoding='utf-8')
-    
     st.session_state['df'] = df
 
     st.write("STORED !")
