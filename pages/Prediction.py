@@ -8,6 +8,10 @@ import dataiku
 import os
 
 st.markdown("<h2 style='text-align: center;'>Output Result 📝</h2>", unsafe_allow_html=True)
+# Initialize the outputs key in the session state object
+if 'outputs' not in st.session_state:
+    st.session_state['outputs'] = []
+
 # Get the outputs variable from session state
 outputs = st.session_state['outputs']
 

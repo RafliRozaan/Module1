@@ -368,7 +368,6 @@ if save_button:
     st.markdown("<h1 style='text-align: left;'>Curve Digitizer</h1>", unsafe_allow_html=True)
     st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
     st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_html=True)
-    predict_button = st.button('load_model')
     
     # Save the image and dataframe to session state
     if bg_image is not None:
@@ -401,7 +400,8 @@ if reset_button:
     if 'df' in st.session_state:
         del st.session_state['df']
 
-    
+# Create the Predict button outside of any conditional blocks
+predict_button = st.button('load_model')
 
 if predict_button:
     host = "https://ai-schlumberger-eag-consulting.p.datascience.cloud.slb-ds.com"
@@ -435,5 +435,6 @@ if predict_button:
     outputs, centers = predict_mask(re_img,re_mask,10)
     st.session_state['outputs'] = outputs
     st.session_state['centers'] = centers
+
     
     
