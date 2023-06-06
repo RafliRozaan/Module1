@@ -318,26 +318,45 @@ if bg_image is not None:
         image = image.resize((width, height), Image.LANCZOS)
         canvas_resized = True
 
+# Define the custom CSS styles
+styles = """
+<style>
+.column {
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+}
+</style>
+"""
+
+# Add the custom CSS styles to the page
+st.markdown(styles, unsafe_allow_html=True)
+
 # Create a 1x2 layout for the sliders
 col1, col2 = st.columns(2)
 
 # Add sliders to control the positions of the horizontal lines in the first column
 with col1:
+    st.markdown("<div class='column'>", unsafe_allow_html=True)
     st.markdown("<b>Y-Axis</b>", unsafe_allow_html=True)
-    y_axis_scale = st.selectbox("Scale", ["normal", "log"])
+    y_axis_scale = st.selectbox("Scale", ["normal", "log"], key="y_axis_scale")
     st.markdown("<b><span style='color:green'>Y-min (%):</span></b>", unsafe_allow_html=True)
     h_line_min_position = st.slider("", 0, 100, 75,accuracy,key="ymin")
     st.markdown("<b><span style='color:blue'>Y-max (%):</span></b>", unsafe_allow_html=True)
     h_line_max_position = st.slider("", 0, 100, 25,accuracy,key="ymax")
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # Add sliders to control the positions of the vertical lines in the second column
 with col2:
+    st.markdown("<div class='column'>", unsafe_allow_html=True)
     st.markdown("<b>X-Axis</b>", unsafe_allow_html=True)
-    x_axis_scale = st.selectbox("Scale", ["normal", "log"])
+    x_axis_scale = st.selectbox("Scale", ["normal", "log"], key="x_axis_scale")
     st.markdown("<b><span style='color:red'>X-min (%):</span></b>", unsafe_allow_html=True)
     v_line_min_position = st.slider("", 0, 100, 25,accuracy,key="xmax")
     st.markdown("<b><span style='color:black'>X-max (%):</span></b>", unsafe_allow_html=True)
     v_line_max_position = st.slider("", 0, 100, 75,accuracy,key="xmin")
+    st.markdown("</div>", unsafe_allow_html=True)
+
 
 
 
