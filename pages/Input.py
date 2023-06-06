@@ -292,6 +292,9 @@ v_line_max_x = int(width * v_line_max_position / 100)
 st.write(bg_image)
 st.write(image)
 
+if bg_image:
+    st.write("debug")
+
 canvas_result = st_canvas(
     fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
     stroke_width=stroke_width,
