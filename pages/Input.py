@@ -438,7 +438,6 @@ if predict_button:
     st.write(np.asarray(image).shape)
     re_img,re_mask = predict_curves(np.asarray(image),model)
     st.success('Model Loaded')
-    st.image(black_to_white(re_mask))
     N = 10
     image = re_img
     threshold = 32 # example threshold value
