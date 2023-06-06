@@ -332,11 +332,8 @@ styles = """
 # Add the custom CSS styles to the page
 st.markdown(styles, unsafe_allow_html=True)
 
-# Create a 1x2 layout for the sliders
-col1, col2 = st.columns(2)
-
-# Add sliders to control the positions of the horizontal lines in the first column
-with col1:
+# Add sliders to control the positions of the horizontal lines in the sidebar
+with st.sidebar:
     st.markdown("<div class='column'>", unsafe_allow_html=True)
     st.markdown("<b>Y-Axis</b>", unsafe_allow_html=True)
     y_axis_scale = st.selectbox("Scale", ["normal", "log"], key="y_axis_scale")
@@ -346,8 +343,8 @@ with col1:
     h_line_max_position = st.slider("", 0, 100, 25,accuracy,key="ymax")
     st.markdown("</div>", unsafe_allow_html=True)
 
-# Add sliders to control the positions of the vertical lines in the second column
-with col2:
+# Add sliders to control the positions of the vertical lines in the sidebar
+with st.sidebar:
     st.markdown("<div class='column'>", unsafe_allow_html=True)
     st.markdown("<b>X-Axis</b>", unsafe_allow_html=True)
     x_axis_scale = st.selectbox("Scale", ["normal", "log"], key="x_axis_scale")
@@ -356,6 +353,7 @@ with col2:
     st.markdown("<b><span style='color:black'>X-max (%):</span></b>", unsafe_allow_html=True)
     v_line_max_position = st.slider("", 0, 100, 75,accuracy,key="xmin")
     st.markdown("</div>", unsafe_allow_html=True)
+
 
 
 
