@@ -256,7 +256,7 @@ if bg_image is not None:
         ratio = max_length / float(height)
         width = int(ratio * width)
         height = max_length
-        image = image.resize((width, height), Image.ANTIALIAS)
+        image = image.resize((width, height), Image.LANCZOS)
         canvas_resized = True
 
 # Add sliders to control the positions of the horizontal and vertical lines
