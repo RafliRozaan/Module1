@@ -315,7 +315,8 @@ h_line_color_2 = "green"
 v_line_color_1 = "red"
 v_line_color_2 = "black"
 bg_color = "#eee"
-st.markdown("<h2 style='text-align: left;'>Set the X and Y axis on the Figure</h2>", unsafe_allow_html=True)
+
+st.markdown("<h1 style='text-align: left;'>Set the X and Y axis on the Figure</h1>", unsafe_allow_html=True)
 bg_image = st.file_uploader("Background image:", type=["png", "jpg"])
 
 
@@ -369,18 +370,6 @@ st.markdown(f'<style>{canvas_css}</style>', unsafe_allow_html=True)  # to center
 
 # Add the custom CSS styles to the page
 st.markdown(styles, unsafe_allow_html=True)
-
-
-y_axis_scale = st.session_state.y_axis_scale
-y_min_value = st.session_state.y_min_value
-y_max_value = st.session_state.y_max_value
-h_line_min_position = st.session_state.ymin
-h_line_max_position = st.session_state.ymax
-x_axis_scale = st.session_state.x_axis_scale
-x_min_value = st.session_state.x_min_value
-x_max_value = st.session_state.x_max_value
-v_line_min_position = st.session_state.xmax
-v_line_max_position = st.session_state.xmin
 
 # Add a horizontal line to separate the sections
 st.sidebar.markdown("<hr/>", unsafe_allow_html=True)
