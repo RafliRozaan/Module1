@@ -565,5 +565,5 @@ if predict_button:
 
 
     # Call the function to plot the curves
-    plot_curves(results)
+    plot_curves(results,Image.open(re_img))
 
