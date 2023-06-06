@@ -377,7 +377,7 @@ with col2:
 st.sidebar.markdown("<hr/>", unsafe_allow_html=True)
 
 # Add a new section with a 6x2 grid of checkboxes
-st.sidebar.markdown("<h4>Predictions:</h4>")
+st.markdown("<b><span style='color:black'>Predictions</span></b>", unsafe_allow_html=True)
 cols = st.sidebar.columns(2)
 for i in range(1, 13):
     cols[(i - 1) % 2].checkbox(f"Prediction {i}", key=f"prediction_{i}")
@@ -581,7 +581,9 @@ if predict_button:
             row = i // 3
             col = i % 3
             axs[row][col].axis('off')
+        fig.subplots_adjust(wspace=0.1, hspace=0.4)
         st.pyplot(fig)
+
 
 
     plot_results(results,re_img,colors)
