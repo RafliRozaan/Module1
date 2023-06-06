@@ -383,13 +383,11 @@ for i in range(1, 13):
     cols[(i - 1) % 2].checkbox(f"Prediction {i}", key=f"prediction_{i}")
 
 
-
-
 # Calculate the y-coordinates of the horizontal lines and the x-coordinates of the vertical lines based on the slider values
-h_line_min_y = int(height * h_line_min_position / 100)
-h_line_max_y = int(height * h_line_max_position / 100)
-v_line_min_x = int(width * v_line_min_position / 100)
-v_line_max_x = int(width * v_line_max_position / 100)
+h_line_min_y = int(height_ori * h_line_min_position / 100)
+h_line_max_y = int(height_ori * h_line_max_position / 100)
+v_line_min_x = int(width_ori * v_line_min_position / 100)
+v_line_max_x = int(width_ori * v_line_max_position / 100)
 
 # Create a canvas component
 
@@ -486,59 +484,6 @@ with col4:
 
 # Define the predict_button variable before it is used
 predict_button = False
-save_button = st.button('Save line positions')
-reset_button = st.button('Reset line positions')
-if save_button:
-    df = pd.DataFrame({
-        'h_line_min_y': [h_line_min_y],
-        'h_line_max_y': [h_line_max_y],
-        'v_line_min_x': [v_line_min_x],
-        'v_line_max_x': [v_line_max_x],
-        'image_width': [image.size[0]] if bg_image else [None],
-        'image_height': [image.size[1]] if bg_image else [None],
-        'image_width_ori': [width_ori],
-        'image_height_ori': [height_ori],
-        'y_axis_scale': [y_axis_scale],
-        'x_axis_scale': [x_axis_scale],
-        'num_curves': [N]
-    })
-
-    st.success('Line positions and image dimensions saved as CSV file')
-    
-    # Save the image and dataframe to session state
-    if bg_image is not None:
-        image = Image.open(bg_image)
-        image_data = np.asarray(image)
-        st.session_state['image_data'] = image_data
-    st.session_state['df'] = df
-
-if reset_button:
-    df = pd.DataFrame({
-        'h_line_min_y': [0],
-        'h_line_max_y': [0],
-        'v_line_min_x': [0],
-        'v_line_max_x': [0],
-        'image_width': [None],
-        'image_height': [None],
-        'image_width_ori': [0],
-        'image_height_ori': [0],
-        'y_axis_scale': ["normal"],
-        'x_axis_scale': ["normal"],
-        'num_curves': [1]
-    })
-    
-
-    st.success('Line positions and image dimensions reset to 0')
-    
-    # Remove the saved image and dataframe from session state
-    if 'image_data' in st.session_state:
-        del st.session_state['image_data']
-    if 'df' in st.session_state:
-        del st.session_state['df']
-    if 'outputs' in st.session_state:
-        del st.session_state['outputs']
-    if 'centers' in st.session_state:
-        del st.session_state['centers']
 
 # Create the Predict button outside of any conditional blocks
 st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
