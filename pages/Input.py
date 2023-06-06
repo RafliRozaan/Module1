@@ -315,7 +315,7 @@ v_line_color_1 = "red"
 v_line_color_2 = "black"
 bg_color = "#eee"
 
-st.image('./dark.png')
+st.image('./dark.png',width=200)
 st.markdown("<h1 style='text-align: left;'>Set the X and Y axis on the Figure</h1>", unsafe_allow_html=True)
 bg_image = st.file_uploader("Background image:", type=["png", "jpg"])
 
