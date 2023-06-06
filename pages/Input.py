@@ -555,6 +555,6 @@ if predict_button:
     )
 
     # Show the plot
-    fig.show()
+    st.plotly_chart(fig)
 
     
