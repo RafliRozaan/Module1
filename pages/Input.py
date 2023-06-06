@@ -494,8 +494,8 @@ def plot_results(fig, axs, results, re_img, colors):
         for i in range(N):
             row = i // 3
             col = i % 3
-            axs[row][col].imshow(re_img, cmap='gray',alpha=0.3)
-            axs[row][col].plot(results[i][0], results[i][1], alpha=1, linewidth=1, c=colors[i])
+            axs[row][col].imshow(re_img, cmap='gray',alpha=1)
+            axs[row][col].plot(results[i][0], results[i][1], alpha=0.5, linewidth=1, marker='.',markersize=0.3,c=colors[i])
             axs[row][col].set_title('Prediction '+str(i+1))
         for i in range(N, axs.shape[0] * axs.shape[1]):
             row = i // 3
@@ -545,7 +545,7 @@ if bg_image:
 else:
     for ax in axs.flat:
         ax.axis('off')
-        
+
 st.pyplot(fig)
 
 def calculate_and_download_values():
