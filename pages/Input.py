@@ -613,7 +613,6 @@ def calculate_and_download_values():
     v_line_min_x = int(width * v_line_min_position / 100)
     v_line_max_x = int(width * v_line_max_position / 100)
 
-    """"
     st.write("h line min max")
     st.write(h_line_min_position)
     st.write(h_line_max_position)
@@ -634,19 +633,19 @@ def calculate_and_download_values():
     st.write("scale x y")
     st.write(x_axis_scale)
     st.write(y_axis_scale)
-    """
+
 
     # Select the results based on the checked checkboxes
     sel_results = [st.session_state['results'][i] for i in range(12) if st.session_state[f"prediction_{i + 1}"]]
-    #st.write(sel_results)
+    st.write(sel_results)
     # Filter the results based on the boundary lines
     filtered_results = []
     for X, Y in sel_results:
         mask = (X >= v_line_min_x) & (X <= v_line_max_x) & (Y >= h_line_min_y) & (Y <= h_line_max_y)
         filtered_X = X[mask]
         filtered_Y = Y[mask]
-        #st.write(filtered_X )
-        #st.write(filtered_Y)
+        st.write(filtered_X )
+        st.write(filtered_Y)
         # Calculate the relative positions of the points
         rel_X = (filtered_X - v_line_min_x) / (v_line_max_x - v_line_min_x)
         rel_Y = (filtered_Y - h_line_min_y) / (h_line_max_y - h_line_min_y)
@@ -668,11 +667,13 @@ def calculate_and_download_values():
     df_data = {}
     for i, (X, Y) in enumerate(filtered_results):
         df_data[f"Curve-{i + 1}"] = {"X": X, "Y": Y}
-    #st.write("Below is dataframe in dict")
-    #st.write(df_data)
+    st.write("Below is dataframe in dict")
+    st.write(df_data)
     df = pd.DataFrame(df_data).stack().apply(pd.Series).reset_index(level=1).rename(columns={"level_1": "Curve"})
-    #st.write("Below is dataframe in df")
+    st.write("Below is dataframe in df")
     st.write(df)
+
+    st.write(nonexistant)
     # Download the DataFrame as an Excel file
 
     @st.cache_data
