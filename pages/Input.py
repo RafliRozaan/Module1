@@ -532,7 +532,7 @@ if predict_button:
         # Add the background image to the figure
         fig.add_layout_image(
             dict(
-                source=image,
+                source=Image.fromarray(image),
                 xref="x",
                 yref="y",
                 x=0,
