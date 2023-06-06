@@ -492,7 +492,6 @@ predict_button = st.button('Digitze Curves')
 def plot_results(fig, axs, results, re_img, colors):
     if results is not None or re_img != None:
         re_img = np.asarray(Image.open(re_img))
-        N = len(results)
         for i in range(N):
             row = i // 3
             col = i % 3
