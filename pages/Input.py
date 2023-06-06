@@ -277,6 +277,19 @@ bg_image = st.file_uploader("Background image:", type=["png", "jpg"])
 
 @st.cache_resource(experimental_allow_widgets=True)
 def mainfun():
+    global drawing_mode, stroke_width, h_line_color_1, h_line_color_2, v_line_color_1, v_line_color_2
+    global bg_color, N, realtime_update, accuracy, width, height, canvas_resized
+    global crop_sizes, image, c_img, ri
+    global styles, canvas_css
+    global col1, col2
+    global y_axis_scale, y_min_value, y_max_value
+    global h_line_min_position, h_line_max_position
+    global x_axis_scale, x_min_value, x_max_value
+    global v_line_min_position, v_line_max_position
+    global cols
+    global h_line_min_y, h_line_max_y
+    global v_line_min_x, v_line_max_x
+
     # Specify canvas parameters in application
     drawing_mode = 'line'
 
@@ -287,7 +300,7 @@ def mainfun():
     v_line_color_2 = "black"
     bg_color = "#eee"
     st.markdown("<h2 style='text-align: left;'>Set the X and Y axis on the Figure</h2>", unsafe_allow_html=True)
-    
+
     N = 12
 
     realtime_update = True
@@ -335,7 +348,6 @@ def mainfun():
 
     # Add the custom CSS styles to the page
     st.markdown(styles, unsafe_allow_html=True)
-
     # Create a 1x2 layout for the sliders
     # Create a 1x2 layout for the sliders
     col1, col2 = st.sidebar.columns(2)
@@ -384,6 +396,7 @@ def mainfun():
 
 # Create a canvas component
 mainfun()
+
 
 col3, col4 = st.columns((0.1,1))
 with col4:
@@ -475,30 +488,15 @@ with col4:
 @st.cache_resource(experimental_allow_widgets=True)
 def main2():
 
+    global predict_button
     # Define the predict_button variable before it is used
-    predict_button = False
 
     # Create the Predict button outside of any conditional blocks
     st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
     st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_html=True)
     predict_button = st.button('Digitze Curves')
 
-def plot_results(fig, axs, results, re_img, colors):
-    if (results != None):
-        for i in range(N):
-            row = i // 3
-            col = i % 3
-            axs[row][col].imshow(re_img, cmap='jet',alpha=0.2)
-            axs[row][col].plot(results[i][0], results[i][1], alpha=0.5, linewidth=0.2, marker='.',markersize=0.55,c=colors[i])
-            axs[row][col].set_title('Prediction '+str(i+1))
-        for i in range(N, axs.shape[0] * axs.shape[1]):
-            row = i // 3
-            col = i % 3
-            axs[row][col].axis('off')
-        fig.subplots_adjust(wspace=0.1, hspace=0.4)
-    else:
-        for ax in axs.flat:
-            ax.axis('off')
+
 
 main2()
 
@@ -516,6 +514,23 @@ def reset_predict():
 pre = reset_predict()
 
 st.session_state['df'] = []
+
+def plot_results(fig, axs, results, re_img, colors):
+    if (results != None):
+        for i in range(N):
+            row = i // 3
+            col = i % 3
+            axs[row][col].imshow(re_img, cmap='jet',alpha=0.2)
+            axs[row][col].plot(results[i][0], results[i][1], alpha=0.5, linewidth=0.2, marker='.',markersize=0.55,c=colors[i])
+            axs[row][col].set_title('Prediction '+str(i+1))
+        for i in range(N, axs.shape[0] * axs.shape[1]):
+            row = i // 3
+            col = i % 3
+            axs[row][col].axis('off')
+        fig.subplots_adjust(wspace=0.1, hspace=0.4)
+    else:
+        for ax in axs.flat:
+            ax.axis('off')
 
 
 if predict_button:
