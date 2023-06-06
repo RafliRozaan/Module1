@@ -256,6 +256,7 @@ if bg_image is not None:
         height = max_length
         image = image.resize((width, height), Image.ANTIALIAS)
         st.write(image)
+        st.write(np.asarray(image).shape)
         canvas_resized = True
 
 # Add sliders to control the positions of the horizontal and vertical lines
