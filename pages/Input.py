@@ -539,7 +539,7 @@ if predict_button:
                 y=M,
                 sizex=N,
                 sizey=M,
-                sizing="stretch",
+                sizing="contain",
                 opacity=1,
                 layer="below"
             )
