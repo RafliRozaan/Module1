@@ -238,10 +238,7 @@ bg_color = "#eee"
 st.markdown("<h2 style='text-align: left;'>Set the X and Y axis on the Figure</h2>", unsafe_allow_html=True)
 bg_image = st.file_uploader("Background image:", type=["png", "jpg"])
 
-if bg_image is not None:
-    image = Image.open(bg_image)
-    st.write(image)
-    st.write(np.asarray(image).shape)
+
 N = st.number_input("Number of Curves on the image", value=1)
 N += 10
 realtime_update = True
@@ -262,6 +259,11 @@ if bg_image is not None:
         image = image.resize((width, height), Image.ANTIALIAS)
         canvas_resized = True
 
+if bg_image is not None:
+    image = Image.open(bg_image)
+    st.write(image)
+    st.write(np.asarray(image).shape)
+    
 # Add sliders to control the positions of the horizontal and vertical lines
 y_axis_scale = st.sidebar.selectbox("Y-Axis Scale", ["normal", "log"])
 
