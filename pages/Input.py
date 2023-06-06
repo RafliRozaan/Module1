@@ -259,11 +259,6 @@ if bg_image is not None:
         image = image.resize((width, height), Image.ANTIALIAS)
         canvas_resized = True
 
-if bg_image is not None:
-    image = Image.open(bg_image)
-    st.write(image)
-    st.write(np.asarray(image).shape)
-
 # Add sliders to control the positions of the horizontal and vertical lines
 y_axis_scale = st.sidebar.selectbox("Y-Axis Scale", ["normal", "log"])
 
@@ -291,15 +286,6 @@ v_line_max_x = int(width * v_line_max_position / 100)
 
 # Create a canvas component
 
-st.write(bg_image)
-st.write(image)
-
-if bg_image:
-    st.write("debug")
-    st.write(image.width)
-    st.write(image.height)
-    st.write(height)
-    st.write(width)
 canvas_result = st_canvas(
     fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
     stroke_width=stroke_width,
