@@ -517,13 +517,10 @@ if predict_button:
     st.success('Analysis Done ! Plotting Candidates Curve')
     colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
 
-    def plot_results(results, re_img, colors):
+    def plot_results(results, re_img, colors, show_predictions):
         N = len(results)
         rows = np.ceil(N / 3).astype(int)
         fig, axs = plt.subplots(rows, 3, figsize=(10, 10), dpi=300)
-        show_predictions = []
-        for i in range(N):
-            show_predictions.append(st.checkbox(f"Show Prediction {i}", value=True))
         for i in range(N):
             row = i // 3
             col = i % 3
@@ -535,4 +532,16 @@ if predict_button:
                 axs[row][col].remove()
         st.pyplot(fig)
 
-    plot_results(results,re_img,colors)
+    # Create a form to set the number of predictions
+    with st.form("Number of Predictions"):
+        num_predictions = st.number_input('Insert a number', key='num_predictions')
+        submit_form = st.form_submit_button("Set Number of Predictions")
+
+    # Create dynamic checkbox widgets based on the number of predictions
+    if 'num_predictions' in st.session_state.keys():
+        show_predictions = []
+        for i in range(st.session_state['num_predictions']):
+            show_predictions.append(st.checkbox(f"Show Prediction {i}", value=True))
+
+        # Call the plot_results function and pass in the show_predictions list
+        plot_results(results, re_img, colors, show_predictions)
