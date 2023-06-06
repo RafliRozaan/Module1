@@ -1,11 +1,12 @@
 import streamlit as st
 
-
 st.set_page_config(layout="wide",page_title="Curve Digitalization",page_icon="📈",)
-st.image('http://thepetro.cloud/wp-content/uploads/2023/05/Petrocloud.png',width=100)
-st.markdown("<h1 style='text-align: center;'>Line Curve Digitalization</h1>", unsafe_allow_html=True)
 
+col1, col2 = st.columns(2)
+col1.image('http://thepetro.cloud/wp-content/uploads/2023/05/Petrocloud.png',width=100)
+col2.markdown("<h1 style='text-align: center;'>Line Curve Digitalization</h1>", unsafe_allow_html=True)
 
+st.markdown("<hr/>", unsafe_allow_html=True)
 
 css = """
         <style>
@@ -31,6 +32,3 @@ st.markdown("""
                 <i>User will need to manually select the relevant predicted figures.</i>
             </blockquote>
             """, unsafe_allow_html=True)
-
-
-        
