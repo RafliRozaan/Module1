@@ -294,8 +294,8 @@ st.markdown("<h2 style='text-align: left;'>Set the X and Y axis on the Figure</h
 bg_image = st.file_uploader("Background image:", type=["png", "jpg"])
 
 
-N = st.number_input("Number of Curves on the image", value=1)
-N += 15
+N = 12
+
 realtime_update = True
 accuracy = 1
 width = 800
@@ -362,6 +362,14 @@ with col2:
     v_line_max_position = st.slider("", 0, 100, 75,accuracy,key="xmin")
     st.markdown("</div>", unsafe_allow_html=True)
 
+# Add a horizontal line to separate the sections
+st.sidebar.markdown("<hr/>", unsafe_allow_html=True)
+
+# Add a new section with a 4x3 grid of checkboxes
+st.sidebar.markdown("<h4>Predictions:</h4>")
+cols = st.sidebar.columns(3)
+for i in range(1, 13):
+    cols[(i - 1) % 3].checkbox(f"Prediction {i}", key=f"prediction_{i}")
 
 
 
