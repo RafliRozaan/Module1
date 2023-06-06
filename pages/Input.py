@@ -179,8 +179,8 @@ def black_to_white(image: np.ndarray) -> np.ndarray:
     return image
 
 def get_n_most_common_colors(image_a, n):
-    img = Image.fromarray(image_a)
-    colors = [color for color in img.getcolors(img.size[0] * img.size[1]) if color[1] != (0, 0, 0) and color[1] != (255, 255, 255)]
+    img = PIL.Image.fromarray(image_a)
+    colors = img.getcolors(img.size[0] * img.size[1])
     sorted_colors = sorted(colors, key=lambda t: t[0], reverse=True)
     return [np.array(color[1]) for color in sorted_colors[:n]]
 
@@ -212,6 +212,7 @@ v_line_color_2 = "black"
 bg_color = "#eee"
 st.markdown("<h2 style='text-align: left;'>Set the X and Y axis on the Figure</h2>", unsafe_allow_html=True)
 bg_image = st.file_uploader("Background image:", type=["png", "jpg"])
+N = st.number_input("Number of Curves on the image", value=1)
 realtime_update = True
 accuracy = 1
 width = 800
@@ -247,7 +248,7 @@ v_line_min_position = st.sidebar.slider("", 0, 100, 25,accuracy,key="xmax")
 st.sidebar.markdown("<b><span style='color:black'>X-max (%):</span></b>", unsafe_allow_html=True)
 v_line_max_position = st.sidebar.slider("", 0, 100, 75,accuracy,key="xmin")
 
-N = st.sidebar.number_input("Number of Curves on the image", value=1)
+
 
 # Calculate the y-coordinates of the horizontal lines and the x-coordinates of the vertical lines based on the slider values
 h_line_min_y = int(height * h_line_min_position / 100)
@@ -365,10 +366,6 @@ if save_button:
 
     st.success('Line positions and image dimensions saved as CSV file')
     
-    st.markdown("<h1 style='text-align: left;'>Curve Digitizer</h1>", unsafe_allow_html=True)
-    st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
-    st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_html=True)
-    
     # Save the image and dataframe to session state
     if bg_image is not None:
         image = Image.open(bg_image)
@@ -401,6 +398,9 @@ if reset_button:
         del st.session_state['df']
 
 # Create the Predict button outside of any conditional blocks
+st.markdown("<h1 style='text-align: left;'>Curve Digitizer</h1>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
+st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_html=True)
 predict_button = st.button('load_model')
 
 if predict_button:
@@ -436,5 +436,32 @@ if predict_button:
     st.session_state['outputs'] = outputs
     st.session_state['centers'] = centers
 
+st.markdown("<h2 style='text-align: center;'>Output Result 📝</h2>", unsafe_allow_html=True)
+# Initialize the outputs key in the session state object
+if 'outputs' not in st.session_state:
+    st.session_state['outputs'] = []
+
+# Get the outputs variable from session state
+outputs = st.session_state['outputs']
+
+# Calculate the number of rows needed to display all images
+num_rows = (len(outputs) + 1) // 2
+
+# Loop over each row
+for row in range(num_rows):
+    # Create a new row using columns
+    cols = st.columns(2)
+    
+    # Display the first image in this row (if it exists)
+    index = row * 2
+    if index < len(outputs):
+        cols[0].header(f"Image {index + 1}")
+        cols[0].image(outputs[index])
+    
+    # Display the second image in this row (if it exists)
+    index += 1
+    if index < len(outputs):
+        cols[1].header(f"Image {index + 1}")
+        cols[1].image(outputs[index])
     
     
