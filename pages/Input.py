@@ -378,7 +378,7 @@ def get_widgets():
         "v_line_min_position": v_line_min_position,
         "v_line_max_position": v_line_max_position
     }
-
+popopo=1
 widgets = get_widgets()
 
 for key, value in widgets.items():
