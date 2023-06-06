@@ -516,8 +516,13 @@ def create_plots(N):
     fig, axs = plt.subplots(rows, 3, figsize=(10, 10*N/2), dpi=300)
     return fig,axs
 
+@st.cache_data
+def reset_predict():
+    return 0
+
 fig,axs = create_plots(N)
-p = 0
+
+p = reset_predict()
 
 if predict_button:
     p+=1
