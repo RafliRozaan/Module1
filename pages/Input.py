@@ -10,6 +10,7 @@ from PIL import Image
 import dataiku
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
+import matplotlib.pyplot as plt
 
 #Preprocessing Lib Start
 
@@ -496,8 +497,7 @@ predict_button = st.button('load_model')
 if predict_button:
     st.markdown("<h2 style='text-align: center;'>Output Result 📝</h2>", unsafe_allow_html=True)
     model = load_model()
-    st.success('Model Loaded')
-    model.summary(print_fn=lambda x: st.text(x))
+    st.success('Model Successfully Loaded From Delfi')
     image = Image.open(bg_image)
     st.write(np.asarray(image).shape)
     re_img,re_mask = predict_curves(np.asarray(image),model)
@@ -515,85 +515,15 @@ if predict_button:
     focus = [mask_flattened(i) for i in focus]
     results = [analyze_mask(i,'median',10) for i in focus]
 
-
-    def plot_curves(results: list, image: np.ndarray) -> None:
-        """
-        Plot all the curves in the results list using plotly.
-
-        :param results: A list of tuples containing the X and Y data for each curve.
-        :param image: A 3D numpy array representing the background image.
-        """
-        # Get the shape of the image
-        M, N, _ = image.shape
-
-        # Create a new figure
-        fig = go.Figure()
-
-        # Add the background image to the figure
-        fig.add_layout_image(
-            dict(
-                source=Image.fromarray(image),
-                xref="x",
-                yref="y",
-                x=0,
-                y=M,
-                sizex=N,
-                sizey=M,
-                sizing="contain",
-                opacity=1,
-                layer="below"
-            )
-        )
-
-        # Set the axis range to match the image dimensions
-        fig.update_xaxes(range=[0, N])
-        fig.update_yaxes(range=[0, M])
-
-        # Set the aspect ratio of the plot to match the image
-        fig.update_layout(
-            yaxis=dict(
-                scaleanchor="x",
-                scaleratio=M/N
-            )
-        )
-
-        # Initialize the current_curve variable in session_state if it doesn't exist
-        if "current_curve" not in st.session_state:
-            st.session_state.current_curve = 0
-
-        # Create a function to update the plot when the user clicks one of the navigation buttons
-        def update_plot():
-            # Clear all traces from the figure
-            fig.data = []
-
-            # Get the X and Y data for the current curve
-            X = results[st.session_state.current_curve][0]
-            Y = results[st.session_state.current_curve][1]
-
-            # Add a scatter plot to the figure
-            fig.add_trace(
-                go.Scatter(x=X, y=Y, mode='lines', marker=dict(size=5), name=f"Curve {st.session_state.current_curve+1}")
-            )
-
-            # Update the figure
-            st.plotly_chart(fig)
-
-        # Display the initial plot
-        update_plot()
-
-        # Create a pair of buttons to navigate between the curves
-        col1, col2 = st.columns(2)
-        if col1.button("Previous"):
-            st.session_state.current_curve = max(0, st.session_state.current_curve - 1)
-            update_plot()
-        if col2.button("Next"):
-            st.session_state.current_curve = min(len(results) - 1, st.session_state.current_curve + 1)
-            update_plot()
-
-
-
-
-
-    # Call the function to plot the curves
-    plot_curves(results,re_img)
-
+    def plot_results(results, re_img, colors):
+        N = len(results)
+        rows = np.ceil(N / 3).astype(int)
+        fig, axs = plt.subplots(rows, 3, figsize=(10, 10), dpi=300)
+        for i in range(N):
+            row = i // 3
+            col = i % 3
+            axs[row][col].imshow(re_img, alpha=0.3)
+            axs[row][col].plot(results[i][0], results[i][1], alpha=1, linewidth=0, marker='.', markersize=0.75, c=colors[i])
+            axs[row][col].set_title('Prediction '+str(i))
+        st.pyplot(fig)
+    
