@@ -570,13 +570,18 @@ if predict_button:
     def plot_results(results, re_img, colors):
         N = len(results)
         rows = np.ceil(N / 3).astype(int)
-        fig, axs = plt.subplots(rows, 3, figsize=(10, 10*N/2), dpi=300)
+        fig, axs = plt.subplots(rows, 3, figsize=(10*N/2, 10), dpi=300)
         for i in range(N):
             row = i // 3
             col = i % 3
-            axs[row][col].imshow(re_img, alpha=0.3)
-            axs[row][col].plot(results[i][0], results[i][1], alpha=1, linewidth=0, marker='.', markersize=0.75, c=colors[i])
+            axs[row][col].imshow(re_img, cmap='gray',alpha=0.3)
+            axs[row][col].plot(results[i][0], results[i][1], alpha=1, linewidth=1, c=colors[i])
             axs[row][col].set_title('Prediction '+str(i))
+        for i in range(N, rows * 3):
+            row = i // 3
+            col = i % 3
+            axs[row][col].axis('off')
         st.pyplot(fig)
+
 
     plot_results(results,re_img,colors)
