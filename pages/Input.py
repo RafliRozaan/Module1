@@ -525,8 +525,7 @@ if predict_button:
         """
         # Get the shape of the image
         M, N, _ = image.shape
-        st.write(str("height ")+str(M))
-        st.write("Width "+str(N))
+
         # Create a new figure
         fig = go.Figure()
 
@@ -558,41 +557,39 @@ if predict_button:
             )
         )
 
-        # Create a variable to store the index of the currently displayed curve
-        current_curve = 0
+        # Initialize the current_curve variable in session_state if it doesn't exist
+        if "current_curve" not in st.session_state:
+            st.session_state.current_curve = 0
 
         # Create a function to update the plot when the user clicks one of the navigation buttons
-        def update_plot(current_curve):
+        def update_plot():
             # Clear all traces from the figure
             fig.data = []
 
             # Get the X and Y data for the current curve
-            X = results[current_curve][0]
-            Y = results[current_curve][1]
+            X = results[st.session_state.current_curve][0]
+            Y = results[st.session_state.current_curve][1]
 
-            st.write("min X " + str(X.min()) + " Max X " + str(X.max()))
-            st.write(len(X))
-            st.write("min Y " + str(Y.min()) + " Max Y " + str(Y.max()))
-            st.write(len(Y))
             # Add a scatter plot to the figure
             fig.add_trace(
-                go.Scatter(x=X, y=Y, mode='lines', marker=dict(size=5), name=f"Curve {current_curve+1}")
+                go.Scatter(x=X, y=Y, mode='lines', marker=dict(size=5), name=f"Curve {st.session_state.current_curve+1}")
             )
 
             # Update the figure
             st.plotly_chart(fig)
 
         # Display the initial plot
-        update_plot(current_curve)
+        update_plot()
 
         # Create a pair of buttons to navigate between the curves
         col1, col2 = st.columns(2)
         if col1.button("Previous"):
-            current_curve = max(0, current_curve - 1)
-            update_plot(current_curve)
+            st.session_state.current_curve = max(0, st.session_state.current_curve - 1)
+            update_plot()
         if col2.button("Next"):
-            current_curve = min(len(results) - 1, current_curve + 1)
-            update_plot(current_curve)
+            st.session_state.current_curve = min(len(results) - 1, st.session_state.current_curve + 1)
+            update_plot()
+
 
 
 
