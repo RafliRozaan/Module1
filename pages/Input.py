@@ -367,12 +367,34 @@ def get_widgets():
         v_line_max_position = st.slider("vmax", 0, 100, 75,key="xmin")
         st.markdown("</div>", unsafe_allow_html=True)
 
-get_widgets()
+    return {
+        "y_axis_scale": y_axis_scale,
+        "y_min_value": y_min_value,
+        "y_max_value": y_max_value,
+        "h_line_min_position": h_line_min_position,
+        "h_line_max_position": h_line_max_position,
+        "x_axis_scale": x_axis_scale,
+        "x_min_value": x_min_value,
+        "x_max_value": x_max_value,
+        "v_line_min_position": v_line_min_position,
+        "v_line_max_position": v_line_max_position
+    }
 
+widgets = get_widgets()
 if "y_axis_scale" not in st.session_state:
     get_widgets()
 
-get_widgets()
+y_axis_scale = widgets["y_axis_scale"]
+y_min_value = widgets["y_min_value"]
+y_max_value = widgets["y_max_value"]
+h_line_min_position = widgets["h_line_min_position"]
+h_line_max_position = widgets["h_line_max_position"]
+x_axis_scale = widgets["x_axis_scale"]
+x_min_value = widgets["x_min_value"]
+x_max_value = widgets["x_max_value"]
+v_line_min_position = widgets["v_line_min_position"]
+v_line_max_position = widgets["v_line_max_position"]
+
 y_axis_scale = st.session_state.y_axis_scale
 y_min_value = st.session_state.y_min_value
 y_max_value = st.session_state.y_max_value
