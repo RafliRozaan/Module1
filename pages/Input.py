@@ -240,7 +240,7 @@ bg_image = st.file_uploader("Background image:", type=["png", "jpg"])
 
 
 N = st.number_input("Number of Curves on the image", value=1)
-N += 10
+N += 15
 realtime_update = True
 accuracy = 1
 width = 800
