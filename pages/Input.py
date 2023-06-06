@@ -649,6 +649,12 @@ def calculate_and_download_values():
     st.write(st.session_state['df'])
     import base64
 
+    st.download_button(
+        label="I am sleepy",
+        data=df,
+        file_name='why.csv',
+        mime='text/csv',    )
+
     def get_table_download_link(df):
         """Generates a link allowing the data in a given panda dataframe to be downloaded
         in:  dataframe
