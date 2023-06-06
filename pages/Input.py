@@ -251,9 +251,6 @@ def analyze_mask(mask: np.ndarray, stat: str = 'median', n_v: int = 2) -> np.nda
     
     return (np.array(X_filtered), np.array(Y_filtered))
 
-
-#Preprocessing Lib End
-
 @st.cache_resource
 def load_model():
     host = "https://ai-schlumberger-eag-consulting.p.datascience.cloud.slb-ds.com"
@@ -274,7 +271,7 @@ def load_model():
     os.remove(tmp_file_path)
     return model
 
-
+#Preprocessing Lib End
 
 # Specify canvas parameters in application
 drawing_mode = 'line'
@@ -502,7 +499,7 @@ def plot_results(fig, axs, results, re_img, colors):
         for ax in axs.flat:
             ax.axis('off')
 
-@st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
+@st.cache_data(hash_funcs={matplotlib.figure.Figure: lambda _: None})
 def create_plots(N):
     rows = np.ceil(N / 3).astype(int)
     fig, axs = plt.subplots(rows, 3, figsize=(10, 10*N/2), dpi=300)
