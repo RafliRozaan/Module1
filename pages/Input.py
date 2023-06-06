@@ -389,7 +389,6 @@ if "y_axis_scale" not in st.session_state:
 
 if bg_image is None:
     get_widgets()
-    st.write("hello")
 
 y_axis_scale = st.session_state.y_axis_scale
 y_min_value = st.session_state.y_min_value
