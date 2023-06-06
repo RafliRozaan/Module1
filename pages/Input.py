@@ -617,7 +617,7 @@ def calculate_and_download_values():
     df = pd.DataFrame(df_data).stack().apply(pd.Series).reset_index(level=1).rename(columns={"level_1": "Curve"})
     
     # Download the DataFrame as an Excel file
-    df.to_excel("results.xlsx", index=False)
+    df.to_csv("results.csv", index=False)
     
     st.success("Values calculated and downloaded successfully")
 
