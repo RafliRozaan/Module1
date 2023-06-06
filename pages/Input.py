@@ -318,22 +318,27 @@ if bg_image is not None:
         image = image.resize((width, height), Image.LANCZOS)
         canvas_resized = True
 
-# Add sliders to control the positions of the horizontal and vertical lines
-y_axis_scale = st.selectbox("Y-Axis Scale", ["normal", "log"])
+# Create a 1x2 layout for the sliders
+col1, col2 = st.columns(2)
 
-st.sidebar.markdown("<b><span style='color:green'>Y-min (%):</span></b>", unsafe_allow_html=True)
-h_line_min_position = st.slider("", 0, 100, 75,accuracy,key="ymin")
+# Add sliders to control the positions of the horizontal lines in the first column
+with col1:
+    st.markdown("<b>Y-Axis</b>", unsafe_allow_html=True)
+    y_axis_scale = st.selectbox("Scale", ["normal", "log"])
+    st.markdown("<b><span style='color:green'>Y-min (%):</span></b>", unsafe_allow_html=True)
+    h_line_min_position = st.slider("", 0, 100, 75,accuracy,key="ymin")
+    st.markdown("<b><span style='color:blue'>Y-max (%):</span></b>", unsafe_allow_html=True)
+    h_line_max_position = st.slider("", 0, 100, 25,accuracy,key="ymax")
 
-st.sidebar.markdown("<b><span style='color:blue'>Y-max (%):</span></b>", unsafe_allow_html=True)
-h_line_max_position = st.slider("", 0, 100, 25,accuracy,key="ymax")
+# Add sliders to control the positions of the vertical lines in the second column
+with col2:
+    st.markdown("<b>X-Axis</b>", unsafe_allow_html=True)
+    x_axis_scale = st.selectbox("Scale", ["normal", "log"])
+    st.markdown("<b><span style='color:red'>X-min (%):</span></b>", unsafe_allow_html=True)
+    v_line_min_position = st.slider("", 0, 100, 25,accuracy,key="xmax")
+    st.markdown("<b><span style='color:black'>X-max (%):</span></b>", unsafe_allow_html=True)
+    v_line_max_position = st.slider("", 0, 100, 75,accuracy,key="xmin")
 
-x_axis_scale = st.selectbox("X-Axis Scale", ["normal", "log"])
-
-st.sidebar.markdown("<b><span style='color:red'>X-min (%):</span></b>", unsafe_allow_html=True)
-v_line_min_position = st.slider("", 0, 100, 25,accuracy,key="xmax")
-
-st.sidebar.markdown("<b><span style='color:black'>X-max (%):</span></b>", unsafe_allow_html=True)
-v_line_max_position = st.slider("", 0, 100, 75,accuracy,key="xmin")
 
 
 
