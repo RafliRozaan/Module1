@@ -663,11 +663,3 @@ def get_table_download_link(df):
 
 if 'df' in st.session_state:
     st.markdown(get_table_download_link(st.session_state['df']), unsafe_allow_html=True)
-
-st.download_button(
-        label="Download data as CSV",
-        data=st.session_state['df'],
-        file_name='large_df.csv',
-        mime='text/csv',
-    )
-st.success("Values calculated and downloaded successfully")
