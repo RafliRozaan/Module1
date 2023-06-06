@@ -565,7 +565,8 @@ def plot_results(fig, axs, results, re_img, colors):
 
 if 'results' not in st.session_state:
     results = None
-    st.write(results)
+else:
+    st.write(st.session_state['results'])
 if 'colors' not in st.session_state:
     colors=[]
 
