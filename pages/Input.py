@@ -574,8 +574,8 @@ if predict_button:
         for i in range(N):
             row = i // 3
             col = i % 3
-            axs[row][col].imshow(re_img, cmap='gray',alpha=0.3)
-            axs[row][col].plot(results[i][0], results[i][1], alpha=1, linewidth=1, c=colors[i])
+            axs[row][col].imshow(re_img,alpha=0.5)
+            axs[row][col].plot(results[i][0], results[i][1], alpha=1, linewidth=0.5, marker='x', c=colors[i])
             axs[row][col].set_title('Prediction '+str(i))
         for i in range(N, rows * 3):
             row = i // 3
