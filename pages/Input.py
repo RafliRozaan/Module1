@@ -551,7 +551,8 @@ cols = st.columns(3)
 for i in range(N):
     row = i // 3
     col = i % 3
-    cols[col].header(f"Prediction - {i+1}")
+    cols[col].markdown(f"## Prediction - {i+1}", unsafe_allow_html=True)
+    cols[col].markdown("<hr style='border:0.5px solid #ccc'/>", unsafe_allow_html=True)
     cols[col].image(images_list[i])
 
 
