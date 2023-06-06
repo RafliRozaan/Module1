@@ -545,3 +545,69 @@ if predict_button:
 plot_results(fig, axs, st.session_state['results'], bg_image,st.session_state['colors'])
 st.pyplot(fig)
 
+def calculate_and_download_values():
+    if bg_image is None or st.session_state['results'] is None:
+        st.error("You Must do Prediction First")
+        return
+    if not any(st.session_state[f"prediction_{i}"] for i in range(1, 13)):
+        st.error("Pick at least one prediction to download")
+        return
+    
+    # Calculate the original and resized dimensions of the image
+    image = Image.open(bg_image)
+    orig_width, orig_height = image.size
+    max_length = 800
+    if orig_height > max_length:
+        ratio = max_length / float(orig_height)
+        width = int(ratio * orig_width)
+        height = max_length
+    else:
+        width, height = orig_width, orig_height
+    
+    # Calculate the positions of the boundary lines
+    h_line_min_y = int(height * h_line_min_position / 100)
+    h_line_max_y = int(height * h_line_max_position / 100)
+    v_line_min_x = int(width * v_line_min_position / 100)
+    v_line_max_x = int(width * v_line_max_position / 100)
+    
+    # Select the results based on the checked checkboxes
+    sel_results = [st.session_state['results'][i] for i in range(12) if st.session_state[f"prediction_{i + 1}"]]
+    
+    # Filter the results based on the boundary lines
+    filtered_results = []
+    for X, Y in sel_results:
+        mask = (X >= v_line_min_x) & (X <= v_line_max_x) & (Y >= h_line_min_y) & (Y <= h_line_max_y)
+        filtered_X = X[mask]
+        filtered_Y = Y[mask]
+        
+        # Calculate the relative positions of the points
+        rel_X = (filtered_X - v_line_min_x) / (v_line_max_x - v_line_min_x)
+        rel_Y = (filtered_Y - h_line_min_y) / (h_line_max_y - h_line_min_y)
+        
+        # Convert the relative positions to actual values based on the axis scales and min/max values
+        if x_axis_scale == "log":
+            act_X = np.power(10, rel_X * (np.log10(float(x_max_value)) - np.log10(float(x_min_value))) + np.log10(float(x_min_value)))
+        else:
+            act_X = rel_X * (float(x_max_value) - float(x_min_value)) + float(x_min_value)
+        
+        if y_axis_scale == "log":
+            act_Y = np.power(10, rel_Y * (np.log10(float(y_max_value)) - np.log10(float(y_min_value))) + np.log10(float(y_min_value)))
+        else:
+            act_Y = rel_Y * (float(y_max_value) - float(y_min_value)) + float(y_min_value)
+        
+        filtered_results.append((act_X, act_Y))
+    
+    # Create a multi-indexed DataFrame from the results
+    df_data = {}
+    for i, (X, Y) in enumerate(filtered_results):
+        df_data[f"Curve-{i + 1}"] = {"X": X, "Y": Y}
+    
+    df = pd.DataFrame(df_data).stack().apply(pd.Series).reset_index(level=1).rename(columns={"level_1": "Curve"})
+    
+    # Download the DataFrame as an Excel file
+    df.to_excel("results.xlsx", index=False)
+    
+    st.success("Values calculated and downloaded successfully")
+
+st.markdown("<h2 style='text-align: left;'>Calculate and Download Values</h2>", unsafe_allow_html=True)
+calculate_button = st.button('Calculate and Download Values', on_click=calculate_and_download_values)
