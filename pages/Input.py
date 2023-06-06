@@ -530,6 +530,3 @@ if predict_button:
         st.pyplot(fig)
 
     plot_results(results,re_img,colors)
-
-
-    plot_results(results,re_img,colors)
