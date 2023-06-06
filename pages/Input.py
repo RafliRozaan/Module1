@@ -383,13 +383,13 @@ popopo=1
 widgets = get_widgets()
 
 y_axis_scale = widgets["y_axis_scale"]
-y_min_value = widgets["y_min_value"]
-y_max_value = widgets["y_max_value"]
+y_min_value = float(widgets["y_min_value"])
+y_max_value = float(widgets["y_max_value"])
 h_line_min_position = widgets["h_line_min_position"]
 h_line_max_position = widgets["h_line_max_position"]
 x_axis_scale = widgets["x_axis_scale"]
-x_min_value = widgets["x_min_value"]
-x_max_value = widgets["x_max_value"]
+x_min_value = float(widgets["x_min_value"])
+x_max_value = float(widgets["x_max_value"])
 v_line_min_position = widgets["v_line_min_position"]
 v_line_max_position = widgets["v_line_max_position"]
 
@@ -539,11 +539,8 @@ def create_images(N):
 
 
 if predict_button:
-    if 'results' in st.session_state:
-        del st.session_state['results']
-    if 'colors' in st.session_state:
-        del st.session_state['colors'] 
-
+    if "images_list" in st.session_state:
+        del st.session_state["images_list"]
     st.markdown("<h2 style='text-align: center;'>Output Result 📝</h2>", unsafe_allow_html=True)
     model = load_model()
     st.success('Model Successfully Loaded From Delfi')
@@ -558,10 +555,8 @@ if predict_button:
     focus = [outputs[i] for i in n_focus]
     focus = [mask_flattened(i) for i in focus]
     results = [analyze_mask(i,'median',10) for i in focus]
-    st.session_state['results'] = results
     st.success('Analysis Done ! Plotting Candidates Curve')
     colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
-    st.session_state['colors']  = colors
     images_list = plot_results(results,re_img,colors)
     st.session_state["images_list"] = images_list
 
