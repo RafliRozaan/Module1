@@ -643,7 +643,7 @@ def calculate_and_download_values():
         return df.to_csv("results.csv", index=False, encoding='utf-8')
     
     csv = convert_df(df)
-    #st.write(csv)
+    st.write(csv)
     st.session_state['df'] = csv
 
 st.markdown("<h2 style='text-align: left;'>Calculate and Download Values</h2>", unsafe_allow_html=True)
