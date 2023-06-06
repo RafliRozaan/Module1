@@ -546,6 +546,17 @@ else:
     images_list = create_images(N)
 
 
+st.markdown(
+    """
+    <style>
+        h2 {
+            font-weight: 300;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Display the images using st.image in a format of Rx3
 cols = st.columns(3)
 for i in range(N):
