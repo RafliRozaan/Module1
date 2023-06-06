@@ -495,7 +495,7 @@ def plot_results(fig, axs, results, re_img, colors):
             row = i // 3
             col = i % 3
             axs[row][col].imshow(re_img, cmap='jet',alpha=1)
-            axs[row][col].plot(results[i][0], results[i][1], alpha=0.5, linewidth=0.2, marker='.',markersize=0.5,c=colors[i])
+            axs[row][col].plot(results[i][0], results[i][1], alpha=0.5, linewidth=0.2, marker='.',markersize=0.55,c=colors[i])
             axs[row][col].set_title('Prediction '+str(i+1))
         for i in range(N, axs.shape[0] * axs.shape[1]):
             row = i // 3
