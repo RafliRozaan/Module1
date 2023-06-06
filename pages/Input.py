@@ -493,9 +493,9 @@ predict_button = st.button('Digitze Curves')
 def plot_results(results, re_img, colors):
     images = []
     for i in range(N):
-        fig, ax = plt.subplots(figsize=(5,5*re_img.shape[0]/re_img.shape[1]))
+        fig, ax = plt.subplots(figsize=(10,10*re_img.shape[0]/re_img.shape[1]))
         ax.imshow(re_img, cmap='jet',alpha=0.2)
-        ax.plot(results[i][0], results[i][1], alpha=0.5, linewidth=0.2, marker='.',markersize=0.55,c=colors[i])
+        ax.plot(results[i][0], results[i][1], alpha=1, linewidth=0.2, marker='.',markersize=0.55,c=colors[i])
         ax.set_title('Prediction '+str(i+1))
         fig.subplots_adjust(wspace=0.1, hspace=0.4)
 
