@@ -656,14 +656,15 @@ def calculate_and_download_values():
 
     st.write("STORED !")
     st.write(st.session_state['df'])
-    
 
-    if 'df' in st.session_state:
-        st.markdown(get_table_download_link(st.session_state['df']), unsafe_allow_html=True)
 
 st.markdown("<h2 style='text-align: left;'>Calculate and Download Values</h2>", unsafe_allow_html=True)
 calculate_button = st.button('Calculate and Download Values', on_click=calculate_and_download_values)
 
+st.write(st.session_state['df'])
+
+if 'df' in st.session_state:
+        st.markdown(get_table_download_link(st.session_state['df']), unsafe_allow_html=True)
 
 
 
