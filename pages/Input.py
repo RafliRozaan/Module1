@@ -483,7 +483,6 @@ predict_button = st.button('Digitze Curves')
 
 
 def plot_results(fig, axs, results, re_img, colors):
-    if (results != None):
         for i in range(N):
             row = i // 3
             col = i % 3
@@ -495,9 +494,6 @@ def plot_results(fig, axs, results, re_img, colors):
             col = i % 3
             axs[row][col].axis('off')
         fig.subplots_adjust(wspace=0.1, hspace=0.4)
-    else:
-        for ax in axs.flat:
-            ax.axis('off')
 
 @st.cache_data()
 def create_plots(N):
