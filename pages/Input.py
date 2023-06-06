@@ -387,8 +387,6 @@ widgets = get_widgets()
 
 if "y_axis_scale" not in st.session_state:
     widgets = get_widgets()
-
-if bg_image is None:
     st.session_state.y_axis_scale = widgets["y_axis_scale"]
     st.session_state.y_min_value = widgets["y_min_value"]
     st.session_state.y_max_value = widgets["y_max_value"]
@@ -399,6 +397,7 @@ if bg_image is None:
     st.session_state.x_max_value = widgets["x_max_value"]
     st.session_state.v_line_min_position = widgets["v_line_min_position"]
     st.session_state.v_line_max_position = widgets["v_line_max_position"]
+
     
 
 y_axis_scale = st.session_state.y_axis_scale
