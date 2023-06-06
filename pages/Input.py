@@ -566,9 +566,11 @@ def plot_results(fig, axs, results, re_img, colors):
 if 'results' not in st.session_state:
     results = None
 else:
-    st.write(st.session_state['results'])
+    results = st.session_state['results']
 if 'colors' not in st.session_state:
     colors=[]
+else:
+    colors = st.session_state['colors']
 
 rows = np.ceil(N / 3).astype(int)
 fig, axs = plt.subplots(rows, 3, figsize=(10, 10*N/2), dpi=300)
