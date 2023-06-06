@@ -536,8 +536,6 @@ def plot_results(results, re_img, colors):
 def create_images(N):
     return [Image.fromarray(np.full((300, 300, 3), 255, dtype=np.uint8)) for _ in range(N)]
 
-
-
 if predict_button:
     if "images_list" in st.session_state:
         del st.session_state["images_list"]
@@ -555,6 +553,7 @@ if predict_button:
     focus = [outputs[i] for i in n_focus]
     focus = [mask_flattened(i) for i in focus]
     results = [analyze_mask(i,'median',10) for i in focus]
+    st.session_state['results'] = results
     st.success('Analysis Done ! Plotting Candidates Curve')
     colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
     images_list = plot_results(results,re_img,colors)
