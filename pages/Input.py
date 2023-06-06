@@ -529,7 +529,8 @@ if predict_button:
             # Get the X and Y data for the current curve
             X = results[i][0]
             Y = results[i][1]
-            
+            st.write(X)
+            st.write(Y)
             # Add a scatter plot to the figure
             fig.add_trace(
                 go.Scatter(x=X, y=Y, mode='lines', marker=dict(size=5), name=f"Curve {i+1}")
