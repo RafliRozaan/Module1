@@ -509,17 +509,19 @@ def create_plots(N):
     rows = np.ceil(N / 3).astype(int)
     fig, axs = plt.subplots(rows, 3, figsize=(10, 10*N/2), dpi=300)
     return fig,axs
+fig,axs = create_plots(N)
 
 @st.cache_data
 def reset_predict():
     return 0
 
-fig,axs = create_plots(N)
+pre = reset_predict()
 
-p = reset_predict()
+st.session_state['df'] = []
+
 
 if predict_button:
-    p = 1
+    pre = 1
     if 'results' in st.session_state:
         del st.session_state['results']
     if 'colors' in st.session_state:
@@ -545,10 +547,10 @@ if predict_button:
     st.session_state['colors']  = colors
     plot_results(fig, axs,results,re_img,colors)
 
-if bg_image and (p>0):
+if bg_image and (pre>0):
     plot_results(fig, axs, st.session_state['results'], np.asarray(Image.open(bg_image)),st.session_state['colors'])
 else:
-    st.write(p)
+    st.write(pre)
     st.write(bg_image)
     for ax in axs.flat:
         ax.axis('off')
@@ -613,7 +615,6 @@ def calculate_and_download_values():
         df_data[f"Curve-{i + 1}"] = {"X": X, "Y": Y}
     
     df = pd.DataFrame(df_data).stack().apply(pd.Series).reset_index(level=1).rename(columns={"level_1": "Curve"})
-    df = df.to_csv().encode('utf-8')
 
     # Download the DataFrame as an Excel file
     st.session_state['df'] = df.to_csv("results.csv", index=False)
