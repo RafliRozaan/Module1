@@ -517,9 +517,10 @@ def create_plots(N):
     return fig,axs
 
 fig,axs = create_plots(N)
-
+p = 0
 
 if predict_button:
+    p+=1
     st.markdown("<h2 style='text-align: center;'>Output Result 📝</h2>", unsafe_allow_html=True)
     model = load_model()
     st.success('Model Successfully Loaded From Delfi')
@@ -543,7 +544,7 @@ if predict_button:
     st.session_state['colors'] = colors
     plot_results(fig, axs,results,re_img,colors)
 
-if bg_image:
+if bg_image and (p>0):
     plot_results(fig, axs, st.session_state['results'], np.asarray(Image.open(bg_image)),st.session_state['colors'])
 else:
     for ax in axs.flat:
