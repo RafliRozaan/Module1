@@ -536,7 +536,7 @@ def plot_results(results, re_img, colors):
 def create_images(N):
     return [Image.fromarray(np.full((300, 300, 3), 255, dtype=np.uint8)) for _ in range(N)]
 
-images_list = create_images(N)
+
 
 if predict_button:
     if 'results' in st.session_state:
@@ -563,10 +563,13 @@ if predict_button:
     colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
     st.session_state['colors']  = colors
     images_list = plot_results(results,re_img,colors)
+    st.session_state["images_list"] = images_list
 
 
-
-
+if "images_list" in st.session_state:
+    images_list = st.session_state["images_list"]
+else:
+    images_list = create_images(N)
 
 
 # Display the images using st.image in a format of Rx3
@@ -576,7 +579,6 @@ for i in range(N):
     col = i % 3
     cols[col].header(f"Image no {i+1}")
     cols[col].image(images_list[i])
-
 
 
 def calculate_and_download_values():
