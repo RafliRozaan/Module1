@@ -557,57 +557,38 @@ if predict_button:
             )
         )
 
-        # Create a list to store the scatter plots for each curve
-        scatters = []
+        # Create a variable to store the index of the currently displayed curve
+        current_curve = 0
 
-        # Iterate through the results and add a scatter plot for each curve
-        for i in range(len(results)):
+        # Create a function to update the plot when the user clicks one of the navigation buttons
+        def update_plot(current_curve):
+            # Clear all traces from the figure
+            fig.data = []
+
             # Get the X and Y data for the current curve
-            X = results[i][0]
-            Y = results[i][1]
+            X = results[current_curve][0]
+            Y = results[current_curve][1]
 
             # Add a scatter plot to the figure
-            scatters.append(
-                go.Scatter(x=X, y=Y, mode='lines', marker=dict(size=5), name=f"Curve {i+1}", visible=False)
+            fig.add_trace(
+                go.Scatter(x=X, y=Y, mode='lines', marker=dict(size=5), name=f"Curve {current_curve+1}")
             )
 
-        # Set the first scatter plot to be visible by default
-        scatters[0].visible = True
+            # Update the figure
+            st.plotly_chart(fig)
 
-        # Add all scatter plots to the figure
-        fig.add_traces(scatters)
+        # Display the initial plot
+        update_plot(current_curve)
 
-        # Create a list of buttons for the dropdown menu
-        buttons = []
+        # Create a pair of buttons to navigate between the curves
+        col1, col2 = st.columns(2)
+        if col1.button("Previous"):
+            current_curve = max(0, current_curve - 1)
+            update_plot(current_curve)
+        if col2.button("Next"):
+            current_curve = min(len(results) - 1, current_curve + 1)
+            update_plot(current_curve)
 
-        # Iterate through the results and create a button for each curve
-        for i in range(len(results)):
-            buttons.append(
-                dict(
-                    label=f"Curve {i+1}",
-                    method="update",
-                    args=[{"visible": [j == i for j in range(len(results))]}]
-                )
-            )
-
-        # Add a dropdown menu to the figure
-        fig.update_layout(
-            updatemenus=[
-                dict(
-                    buttons=buttons,
-                    direction="down",
-                    pad={"r": 10, "t": 10},
-                    showactive=True,
-                    x=0.1,
-                    xanchor="left",
-                    y=1.1,
-                    yanchor="top"
-                ),
-            ]
-        )
-
-        # Show the plot
-        st.plotly_chart(fig)
 
 
 
