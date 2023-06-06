@@ -200,6 +200,27 @@ def predict_mask(img,mask,N):
 
 #Preprocessing Lib End
 
+@st.cache
+def load_model():
+    host = "https://ai-schlumberger-eag-consulting.p.datascience.cloud.slb-ds.com"
+    apiKey = 'CvyAhYL5Y1AO5VLd1aNDUUVSrgXRBFjL'
+
+    client = dataiku.set_remote_dss(host, apiKey)
+
+    model_folder = dataiku.Folder("Module1",'MODULE1')
+    model_path = model_folder.list_paths_in_partition()
+
+    tmp_file_path = 'better_predictor_v5.h5'
+
+    with open(tmp_file_path, "wb") as tmp_file:
+        with model_folder.get_download_stream(model_path[0]) as model_weight_file:
+            tmp_file.write(model_weight_file.read())
+
+    model = tf.keras.models.load_model(tmp_file_path,compile=False)
+    os.remove(tmp_file_path)
+    return model
+model = load_model()
+
 if 'outputs' in st.session_state:
     del st.session_state['outputs']
 if 'centers' in st.session_state:
@@ -414,23 +435,6 @@ predict_button = st.button('load_model')
 
 if predict_button:
     st.markdown("<h2 style='text-align: center;'>Output Result 📝</h2>", unsafe_allow_html=True)
-    host = "https://ai-schlumberger-eag-consulting.p.datascience.cloud.slb-ds.com"
-    apiKey = 'CvyAhYL5Y1AO5VLd1aNDUUVSrgXRBFjL'
-
-    client = dataiku.set_remote_dss(host, apiKey)
-
-    model_folder = dataiku.Folder("Module1",'MODULE1')
-    model_path = model_folder.list_paths_in_partition()
-
-    tmp_file_path = 'better_predictor_v5.h5'
-
-    with open(tmp_file_path, "wb") as tmp_file:
-        with model_folder.get_download_stream(model_path[0]) as model_weight_file:
-            tmp_file.write(model_weight_file.read())
-
-    model = tf.keras.models.load_model(tmp_file_path,compile=False)
-    os.remove(tmp_file_path)
-
 
     st.success('Model Loaded')
     model.summary(print_fn=lambda x: st.text(x))
