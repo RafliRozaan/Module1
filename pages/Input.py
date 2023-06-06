@@ -200,6 +200,10 @@ def predict_mask(img,mask,N):
 
 #Preprocessing Lib End
 
+if 'outputs' in st.session_state:
+    del st.session_state['outputs']
+if 'centers' in st.session_state:
+    del st.session_state['centers']
 
 # Specify canvas parameters in application
 drawing_mode = 'line'
