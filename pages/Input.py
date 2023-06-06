@@ -570,7 +570,7 @@ if predict_button:
     def plot_results(results, re_img, colors):
         N = len(results)
         rows = np.ceil(N / 3).astype(int)
-        fig, axs = plt.subplots(rows, 3, figsize=(10*N/2, 10), dpi=300)
+        fig, axs = plt.subplots(rows, 3, figsize=(10, 10*N/2), dpi=300)
         for i in range(N):
             row = i // 3
             col = i % 3
