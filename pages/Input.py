@@ -8,9 +8,9 @@ from sklearn.cluster import KMeans
 import cv2
 from PIL import Image   
 import dataiku
-import matplotlib
 import matplotlib.pyplot as plt
 import io
+import base64
 
 #Preprocessing Lib Start
 
@@ -547,6 +547,15 @@ for i in range(N):
     cols[col].header(f"Image no {i+1}")
     cols[col].image(images_list[i])
 
+def get_table_download_link(df):
+        """Generates a link allowing the data in a given panda dataframe to be downloaded
+        in:  dataframe
+        out: href string
+        """
+        csv = df.to_csv(index=False)
+        b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+        href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
+
 
 def calculate_and_download_values():
     if bg_image is None or st.session_state['results'] is None:
@@ -647,18 +656,7 @@ def calculate_and_download_values():
 
     st.write("STORED !")
     st.write(st.session_state['df'])
-    import base64
-
-
-
-    def get_table_download_link(df):
-        """Generates a link allowing the data in a given panda dataframe to be downloaded
-        in:  dataframe
-        out: href string
-        """
-        csv = df.to_csv(index=False)
-        b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
-        href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
+    
 
     if 'df' in st.session_state:
         st.markdown(get_table_download_link(st.session_state['df']), unsafe_allow_html=True)
