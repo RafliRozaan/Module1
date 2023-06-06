@@ -490,8 +490,7 @@ st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_ht
 predict_button = st.button('Digitze Curves')
 
 def plot_results(fig, axs, results, re_img, colors):
-    if (results != None) and (re_img != None):
-        re_img = np.asarray(Image.open(re_img))
+    if (results != None):
         for i in range(N):
             row = i // 3
             col = i % 3
@@ -541,7 +540,12 @@ if predict_button:
     st.session_state['colors'] = colors
     plot_results(fig, axs,results,re_img,colors)
 
-plot_results(fig, axs, st.session_state['results'], bg_image,st.session_state['colors'])
+if bg_image:
+    plot_results(fig, axs, st.session_state['results'], np.asarray(Image.open(bg_image)),st.session_state['colors'])
+else:
+    for ax in axs.flat:
+        ax.axis('off')
+        
 st.pyplot(fig)
 
 def calculate_and_download_values():
