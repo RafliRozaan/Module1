@@ -572,8 +572,8 @@ def calculate_and_download_values():
     st.write(orig_width)
     st.write(orig_height)
 
-    h_line_min_y = int(height * h_line_min_position / 100)
-    h_line_max_y = int(height * h_line_max_position / 100)
+    h_line_max_y = int(height * h_line_min_position / 100)
+    h_line_min_y = int(height * h_line_max_position / 100)
     v_line_min_x = int(width * v_line_min_position / 100)
     v_line_max_x = int(width * v_line_max_position / 100)
 
