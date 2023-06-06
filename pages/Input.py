@@ -381,8 +381,16 @@ def get_widgets():
 popopo=1
 widgets = get_widgets()
 
-for key, value in widgets.items():
-    exec(f"{key} = {value}")
+y_axis_scale = widgets["y_axis_scale"]
+y_min_value = widgets["y_min_value"]
+y_max_value = widgets["y_max_value"]
+h_line_min_position = widgets["h_line_min_position"]
+h_line_max_position = widgets["h_line_max_position"]
+x_axis_scale = widgets["x_axis_scale"]
+x_min_value = widgets["x_min_value"]
+x_max_value = widgets["x_max_value"]
+v_line_min_position = widgets["v_line_min_position"]
+v_line_max_position = widgets["v_line_max_position"]
 
 # Add a horizontal line to separate the sections
 st.sidebar.markdown("<hr/>", unsafe_allow_html=True)
@@ -515,11 +523,12 @@ def plot_results(fig, axs, results, re_img, colors):
             axs[row][col].axis('off')
         fig.subplots_adjust(wspace=0.1, hspace=0.4)
 
-@st.cache_data()
+@st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
 def create_plots(N):
     rows = np.ceil(N / 3).astype(int)
     fig, axs = plt.subplots(rows, 3, figsize=(10, 10*N/2), dpi=300)
     return fig,axs
+
 fig,axs = create_plots(N)
 
 @st.cache_data
