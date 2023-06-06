@@ -27,5 +27,5 @@ canvas_result = st_canvas(
     update_streamlit=realtime_update,
     height=150,
     drawing_mode=drawing_mode,
-    key="canvas",
+    key="canvas2",
 )
