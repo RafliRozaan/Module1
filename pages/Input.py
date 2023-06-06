@@ -636,7 +636,7 @@ def calculate_and_download_values():
     st.write("Below is dataframe in df")
     st.write(df)
     # Download the DataFrame as an Excel file
-    @st.experimental_memo
+    @st.cache_data
     def convert_df(df):
         return df.to_csv("results.csv", index=False, encoding='utf-8')
     
