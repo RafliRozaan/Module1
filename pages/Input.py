@@ -600,6 +600,11 @@ def calculate_and_download_values():
     v_line_min_x = int(width * v_line_min_position / 100)
     v_line_max_x = int(width * v_line_max_position / 100)
     
+
+    st.write(h_line_min_y)
+    st.write(h_line_max_y)
+    st.write(v_line_min_x)
+    st.write(v_line_max_x)
     # Select the results based on the checked checkboxes
     sel_results = [st.session_state['results'][i] for i in range(12) if st.session_state[f"prediction_{i + 1}"]]
     st.write(sel_results)
