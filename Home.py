@@ -4,7 +4,7 @@ st.set_page_config(layout="wide",page_title="Curve Digitalization",page_icon="ðŸ
 
 col1, col2 = st.columns((1, 10))
 col1.image('http://thepetro.cloud/wp-content/uploads/2023/05/Petrocloud.png',width=100)
-col2.markdown("<h1 style='text-align: center; color: #4f8bf9; margin-bottom: 0;'>Line Curve Digitalization</h1>", unsafe_allow_html=True)
+col2.markdown("<h1 style='text-align: left; margin-bottom: 0;'>Line Curve Digitalization</h1>", unsafe_allow_html=True)
 
 st.markdown("<hr style='border-top: 2px solid #4f8bf9; margin-top: 0;'/>", unsafe_allow_html=True)
 
