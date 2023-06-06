@@ -631,7 +631,7 @@ def calculate_and_download_values():
     df_data = {}
     for i, (X, Y) in enumerate(filtered_results):
         df_data[f"Curve-{i + 1}"] = {"X": X, "Y": Y}
-    
+    st.write(df_data)
     df = pd.DataFrame(df_data).stack().apply(pd.Series).reset_index(level=1).rename(columns={"level_1": "Curve"})
 
     # Download the DataFrame as an Excel file
