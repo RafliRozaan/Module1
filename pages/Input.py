@@ -333,7 +333,8 @@ styles = """
 st.markdown(styles, unsafe_allow_html=True)
 
 # Create a 1x2 layout for the sliders
-col1, col2 = st.columns(2)
+# Create a 1x2 layout for the sliders
+col1, col2 = st.sidebar.columns(2)
 
 # Add sliders to control the positions of the horizontal lines in the first column
 with col1:
@@ -360,6 +361,7 @@ with col2:
     st.markdown("<b><span style='color:black'>X-max (%):</span></b>", unsafe_allow_html=True)
     v_line_max_position = st.slider("", 0, 100, 75,accuracy,key="xmin")
     st.markdown("</div>", unsafe_allow_html=True)
+
 
 
 
