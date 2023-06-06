@@ -543,7 +543,7 @@ if reset_button:
 # Create the Predict button outside of any conditional blocks
 st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
 st.markdown("<h2 style='text-align: left;'>Predict Curves</h2>", unsafe_allow_html=True)
-predict_button = st.button('load_model')
+predict_button = st.button('Digitze Curves')
 
 def plot_results(fig, axs, results, re_img, colors):
     if results is not None:
@@ -593,5 +593,5 @@ if predict_button:
     st.success('Analysis Done ! Plotting Candidates Curve')
     colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
     plot_results(fig, axs,results,re_img,colors)
-    
+
 st.pyplot(fig)
