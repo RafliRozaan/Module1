@@ -510,9 +510,19 @@ if predict_button:
     st.session_state['outputs'] = outputs
     st.session_state['centers'] = centers
     n_focus = range(len(centers))
+
     focus = [outputs[i] for i in n_focus]
     focus = [mask_flattened(i) for i in focus]
     results = [analyze_mask(i,'median',10) for i in focus]
+
+    # Iterate through the outputs and display each image using Streamlit
+    for i in range(len(outputs)):
+        # Convert the numpy array to a PIL.Image.Image object
+        output_image = Image.fromarray(outputs[i])
+    
+        # Display the image using Streamlit
+        st.image(output_image, caption=f"Output {i+1}")
+
 
     # Calculate the number of rows needed for the subplots
     N = len(results)
