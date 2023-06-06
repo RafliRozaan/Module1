@@ -609,6 +609,8 @@ def calculate_and_download_values():
     v_line_min_x = int(width * v_line_min_position / 100)
     v_line_max_x = int(width * v_line_max_position / 100)
 
+    """"
+
     st.write("h line min max")
     st.write(h_line_min_position)
     st.write(h_line_max_position)
@@ -630,6 +632,7 @@ def calculate_and_download_values():
     st.write(x_axis_scale)
     st.write(y_axis_scale)
 
+    """
 
     # Select the results based on the checked checkboxes
     sel_results = [st.session_state['results'][i] for i in range(12) if st.session_state[f"prediction_{i + 1}"]]
@@ -672,19 +675,9 @@ def calculate_and_download_values():
     # Download the DataFrame as an Excel file
     st.session_state['df'] = df
 
-    st.write("STORED !")
-    st.write(st.session_state['df'])
-
 
 st.markdown("<h2 style='text-align: left;'>Calculate and Download Values</h2>", unsafe_allow_html=True)
-calculate_button = st.button('Calculate and Download Values', on_click=calculate_and_download_values)
-
-st.write("This is ")
-st.write(st.session_state['df'])
+calculate_button = st.button('Generate Download Links For Choosen Curves', on_click=calculate_and_download_values)
 
 if 'df' in st.session_state:
         st.markdown(get_table_download_link(st.session_state['df']), unsafe_allow_html=True)
-
-if st.button('Click Me'):
-    st.write(st.session_state['df'])
-
