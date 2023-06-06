@@ -297,6 +297,9 @@ height = 800
 
 canvas_resized = False
 
+
+
+
 if bg_image is not None:
     crop_sizes = 32*10
     image = Image.open(bg_image)
@@ -383,6 +386,10 @@ def get_widgets():
 widgets = get_widgets()
 if "y_axis_scale" not in st.session_state:
     get_widgets()
+
+if bg_image is None:
+    st.write("hello")
+
 
 y_axis_scale = widgets["y_axis_scale"]
 y_min_value = widgets["y_min_value"]
