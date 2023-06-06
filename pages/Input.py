@@ -592,4 +592,4 @@ if predict_button:
     results = [analyze_mask(i,'median',10) for i in focus]
     st.success('Analysis Done ! Plotting Candidates Curve')
     colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
-    plot_results(results,re_img,colors)
+    plot_results(fig, axs,results,re_img,colors)
