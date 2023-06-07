@@ -623,15 +623,15 @@ def calculate_and_download_values():
 
     # Select the results based on the checked checkboxes
     # sel_results = [st.session_state['results'][i] for i in range(12) if st.session_state[f"prediction_{i + 1}"]]
-    st.write(results)
+    #st.write(results)
     # Filter the results based on the boundary lines
     filtered_results = []
     for X, Y in results:
         mask = (X >= v_line_min_x) & (X <= v_line_max_x) & (Y >= h_line_min_y) & (Y <= h_line_max_y)
         filtered_X = X[mask]
         filtered_Y = Y[mask]
-        st.write(filtered_X )
-        st.write(filtered_Y)
+        #st.write(filtered_X )
+        #st.write(filtered_Y)
         # Calculate the relative positions of the points
         rel_X = (filtered_X - v_line_min_x) / (v_line_max_x - v_line_min_x)
         rel_Y = (filtered_Y - h_line_min_y) / (h_line_max_y - h_line_min_y)
@@ -653,14 +653,14 @@ def calculate_and_download_values():
     df_data = {}
     for i, (X, Y) in enumerate(filtered_results):
         df_data[f"Curve-{i + 1}"] = {"X": X, "Y": Y}
-    st.write("Below is dataframe in dict")
-    st.write(df_data)
+    #st.write("Below is dataframe in dict")
+    #st.write(df_data)
     df = pd.DataFrame(df_data).stack().apply(pd.Series).reset_index(level=1).rename(columns={"level_1": "Curve"})
-    st.write("Below is dataframe in df")
-    st.write(df)
+    #st.write("Below is dataframe in df")
+    #st.write(df)
 
     # Download the DataFrame as an Excel file
-    st.session_state['df'] = df
+    #st.session_state['df'] = df
 
 
 st.markdown("<h2 style='text-align: left;'>Calculate and Download Values</h2>", unsafe_allow_html=True)
@@ -668,3 +668,6 @@ calculate_button = st.button('Generate Download Links For Choosen Curves', on_cl
 
 if 'df' in st.session_state:
         st.markdown(get_table_download_link(st.session_state['df']), unsafe_allow_html=True)
+
+if st.button('click me'):
+    st.session_state['df']
