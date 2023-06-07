@@ -475,7 +475,10 @@ predict_button = False
 st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
 st.markdown("<hr style='border-top: 2px solid ; margin-top: 0;'/>", unsafe_allow_html=True)
 st.markdown("<h2 style='text-align: left;'>Curve Scanning</h2>", unsafe_allow_html=True)
-predict_button = st.button('Digitze Curves')
+sasa, sisi, susu = st.columns((1,1,1))
+
+with sisi:
+    predict_button = st.button('Digitze Curves')
 st.markdown("<hr style='border-top: 2px solid ; margin-top: 0;'/>", unsafe_allow_html=True)
 
 
@@ -655,13 +658,18 @@ def calculate_and_download_values():
     df = pd.DataFrame(df_data).stack().apply(pd.Series).reset_index(level=1).rename(columns={"level_1": "Curve"}).reset_index()
     #st.write("Below is dataframe in df")
     #st.write(df)
-
     # Download the DataFrame as an Excel file
+    df.to_csv('dataframe.csv')
     st.session_state['df'] = df
 
 
 st.markdown("<h2 style='text-align: left;'>Calculate and Download Values</h2>", unsafe_allow_html=True)
-calculate_button = st.button('Generate Download Links For Choosen Curves', on_click=calculate_and_download_values)
+kaka, kiki, kuku = st.columns((1,1,1))
+with kiki:
+    calculate_button = st.button('Generate Download Links For Choosen Curves', on_click=calculate_and_download_values)
 
 if 'df' in st.session_state:
-        st.markdown(get_table_download_link(st.session_state['df']), unsafe_allow_html=True)
+    with open('dataframe.csv') as f:
+        lala, lele, lolo = st.columns((1,1,1))
+        with lele:
+            st.download_button('Download CSV.csv',f,file_name='Output.csv')
