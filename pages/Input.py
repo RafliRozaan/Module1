@@ -572,10 +572,7 @@ def calculate_and_download_values():
     if bg_image is None or st.session_state['results'] is None:
         st.error("You Must do Prediction First")
         return
-    
-    if not any(st.session_state[f"prediction_{i}"] for i in range(1, 13)):
-        st.error("Pick at least one prediction to download")
-        return
+
     
     # Calculate the original and resized dimensions of the image
 
