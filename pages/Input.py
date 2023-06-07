@@ -274,8 +274,6 @@ def load_model():
 
 #Preprocessing Lib End
 
-
-
 col1, col2 = st.sidebar.columns(2)
 
 # Add sliders to control the positions of the horizontal lines in the first column
@@ -283,12 +281,12 @@ with col1:
     st.markdown("<div class='column'>", unsafe_allow_html=True)
     st.markdown("<b>Y-Axis</b>", unsafe_allow_html=True)
     y_axis_scale = st.selectbox("Scale", ["normal", "log"], key="y_axis_scale")
-    y_min_value = st.number_input("Value min", key="y_min_value")
-    y_max_value = st.number_input("Value max", key="y_max_value")
+    y_min_value = st.number_input("Value min", key="y_min_value", step = 1, value = 0)
+    y_max_value = st.number_input("Value max", key="y_max_value", step = 1, value = 30)
     st.markdown("<b><span style='color:green'>Y-min (%):</span></b>", unsafe_allow_html=True)
-    h_line_min_position = st.slider("hmin", 0, 100, 75,key="ymin")
+    h_line_min_position = st.number_input("hmin", 0, 100, 75,key="ymin", step = 1)
     st.markdown("<b><span style='color:blue'>Y-max (%):</span></b>", unsafe_allow_html=True)
-    h_line_max_position = st.slider("hmax", 0, 100, 25,key="ymax")
+    h_line_max_position = st.number_input("hmax", 0, 100, 25, step = 1, key="ymax")
     st.markdown("</div>", unsafe_allow_html=True)
 
     # Add sliders to control the positions of the vertical lines in the second column
@@ -296,14 +294,13 @@ with col2:
     st.markdown("<div class='column'>", unsafe_allow_html=True)
     st.markdown("<b>X-Axis</b>", unsafe_allow_html=True)
     x_axis_scale = st.selectbox("Scale", ["normal", "log"], key="x_axis_scale")
-    x_min_value = st.number_input("Value min", key="x_min_value")
-    x_max_value = st.number_input("Value max", key="x_max_value")
+    x_min_value = st.number_input("Value min", key="x_min_value", step = 1, value = 0)
+    x_max_value = st.number_input("Value max", key="x_max_value", step = 1, value = 30)
     st.markdown("<b><span style='color:red'>X-min (%):</span></b>", unsafe_allow_html=True)
-    v_line_min_position = st.slider("vmin", 0, 100, 25,key="xmax")
+    v_line_min_position = st.number_input("vmin", 0, 100, 25,key="xmax", step = 1)
     st.markdown("<b><span style='color:black'>X-max (%):</span></b>", unsafe_allow_html=True)
-    v_line_max_position = st.slider("vmax", 0, 100, 75,key="xmin")
+    v_line_max_position = st.number_input("vmax", 0, 100, 75,key="xmin", step = 1)
     st.markdown("</div>", unsafe_allow_html=True)
-
 
 # Specify canvas parameters in application
 drawing_mode = 'line'
@@ -315,10 +312,8 @@ v_line_color_1 = "red"
 v_line_color_2 = "black"
 bg_color = "#eee"
 
-
 st.markdown("<h1 style='text-align: left;'>Upload Curve Image</h1>", unsafe_allow_html=True)
-bg_image = st.file_uploader("Upload the Log Curves Images:", type=["png", "jpg"])
-
+bg_image = st.file_uploader("Upload the Log Curves Images:", type=["png"])
 
 N = 12
 
@@ -328,9 +323,6 @@ width = 800
 height = 800
 
 canvas_resized = False
-
-
-
 
 if bg_image is not None:
     crop_sizes = 32*10
@@ -367,19 +359,17 @@ canvas_css = """
 """
 st.markdown(f'<style>{canvas_css}</style>', unsafe_allow_html=True)  # to center title for reference
 
-
 # Add the custom CSS styles to the page
 st.markdown(styles, unsafe_allow_html=True)
 
 # Add a horizontal line to separate the sections
 st.sidebar.markdown("<hr/>", unsafe_allow_html=True)
 
-# Add a new section with a 6x2 grid of checkboxes
-st.sidebar.markdown("<b><span style='color:black'>Predictions</span></b>", unsafe_allow_html=True)
-cols = st.sidebar.columns(2)
-for i in range(1, 13):
-    cols[(i - 1) % 2].checkbox(f"Prediction {i}", key=f"prediction_{i}")
-
+# # Add a new section with a 6x2 grid of checkboxes
+# st.sidebar.markdown("<b><span style='color:black'>Predictions</span></b>", unsafe_allow_html=True)
+# cols = st.sidebar.columns(2)
+# for i in range(1, 13):
+#     cols[(i - 1) % 2].checkbox(f"Prediction {i}", key=f"prediction_{i}")
 
 # Calculate the y-coordinates of the horizontal lines and the x-coordinates of the vertical lines based on the slider values
 h_line_min_y = int(height * h_line_min_position / 100)
@@ -396,6 +386,7 @@ if bg_image is not None:
         fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
         stroke_width=stroke_width,
         background_color=bg_color,
+        display_toolbar = False,
         background_image=image if bg_image else None,
         update_streamlit=realtime_update,
         drawing_mode=drawing_mode,
@@ -477,41 +468,37 @@ if bg_image is not None:
         width=width,
     )
 
-
-
-
-
 # Define the predict_button variable before it is used
 predict_button = False
 
 # Create the Predict button outside of any conditional blocks
 st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
 st.markdown("<hr style='border-top: 2px solid ; margin-top: 0;'/>", unsafe_allow_html=True)
-st.markdown("<h2 style='text-align: left;'>Curve Predictions</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: left;'>Curve Scanning</h2>", unsafe_allow_html=True)
 predict_button = st.button('Digitze Curves')
 st.markdown("<hr style='border-top: 2px solid ; margin-top: 0;'/>", unsafe_allow_html=True)
 
 
-def plot_results(results, re_img, colors):
-    images = []
-    for i in range(N):
-        fig, ax = plt.subplots(figsize=(10,10*re_img.shape[0]/re_img.shape[1]))
-        ax.imshow(re_img, cmap='jet',alpha=0.2)
-        ax.plot(results[i][0], results[i][1], alpha=1, linewidth=1, marker='.',markersize=0.55,c=colors[i])
-        ax.set_title('Prediction '+str(i+1))
-        fig.subplots_adjust(wspace=0.1, hspace=0.4)
+# def plot_results(results, re_img, colors):
+#     images = []
+#     for i in range(N):
+#         fig, ax = plt.subplots(figsize=(10,10*re_img.shape[0]/re_img.shape[1]))
+#         ax.imshow(re_img, cmap='jet',alpha=0.2)
+#         ax.plot(results[i][0], results[i][1], alpha=1, linewidth=1, marker='.',markersize=0.55,c=colors[i])
+#         ax.set_title('Prediction '+str(i+1))
+#         fig.subplots_adjust(wspace=0.1, hspace=0.4)
 
-        # Convert the figure to an image
-        buf = io.BytesIO()
-        fig.savefig(buf, format="png")
-        buf.seek(0)
-        img = Image.open(buf)
-        images.append(img)
+#         # Convert the figure to an image
+#         buf = io.BytesIO()
+#         fig.savefig(buf, format="png")
+#         buf.seek(0)
+#         img = Image.open(buf)
+#         images.append(img)
 
-        # Close the figure
-        plt.close(fig)
+#         # Close the figure
+#         plt.close(fig)
 
-    return images
+#     return images
 
 @st.cache_data
 def create_images(N):
@@ -536,10 +523,10 @@ if predict_button:
     focus = [mask_flattened(i) for i in focus]
     results = [analyze_mask(i,'median',10) for i in focus]
     st.session_state['results'] = results
-    st.success('Analysis Done ! Plotting Candidates Curve')
-    colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
-    images_list = plot_results(results,re_img,colors)
-    st.session_state["images_list"] = images_list
+    # st.success('Analysis Done ! Plotting Candidates Curve')
+    # colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
+    # images_list = plot_results(results,re_img,colors)
+    # st.session_state["images_list"] = images_list
 
 
 if "images_list" in st.session_state:
@@ -559,14 +546,14 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Display the images using st.image in a format of Rx3
-cols = st.columns(3)
-for i in range(N):
-    row = i // 3
-    col = i % 3
-    cols[col].markdown(f"## Prediction - {i+1}", unsafe_allow_html=True)
-    cols[col].markdown("<hr style='border:0.5px solid #ccc'/>", unsafe_allow_html=True)
-    cols[col].image(images_list[i])
+# # Display the images using st.image in a format of Rx3
+# cols = st.columns(3)
+# for i in range(N):
+#     row = i // 3
+#     col = i % 3
+#     cols[col].markdown(f"## Prediction - {i+1}", unsafe_allow_html=True)
+#     cols[col].markdown("<hr style='border:0.5px solid #ccc'/>", unsafe_allow_html=True)
+#     cols[col].image(images_list[i])
 
 
 def get_table_download_link(df):
@@ -638,11 +625,11 @@ def calculate_and_download_values():
     """
 
     # Select the results based on the checked checkboxes
-    sel_results = [st.session_state['results'][i] for i in range(12) if st.session_state[f"prediction_{i + 1}"]]
-    st.write(sel_results)
+    # sel_results = [st.session_state['results'][i] for i in range(12) if st.session_state[f"prediction_{i + 1}"]]
+    st.write(results)
     # Filter the results based on the boundary lines
     filtered_results = []
-    for X, Y in sel_results:
+    for X, Y in results:
         mask = (X >= v_line_min_x) & (X <= v_line_max_x) & (Y >= h_line_min_y) & (Y <= h_line_max_y)
         filtered_X = X[mask]
         filtered_Y = Y[mask]
