@@ -550,13 +550,15 @@ st.markdown(
 )
 
 # # Display the images using st.image in a format of Rx3
-# cols = st.columns(3)
-# for i in range(N):
-#     row = i // 3
-#     col = i % 3
-#     cols[col].markdown(f"## Prediction - {i+1}", unsafe_allow_html=True)
-#     cols[col].markdown("<hr style='border:0.5px solid #ccc'/>", unsafe_allow_html=True)
-#     cols[col].image(images_list[i])
+cols = st.columns(3)
+for i in range(N):
+    row = i // 3
+    col = i % 3
+    cols[col].markdown(f"## Prediction - {i+1}", unsafe_allow_html=True)
+    cols[col].markdown("<hr style='border:0.5px solid #ccc'/>", unsafe_allow_html=True)
+    cols[col].image(images_list[i])
+
+
 
 
 def get_table_download_link(df):
