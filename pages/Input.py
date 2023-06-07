@@ -655,7 +655,7 @@ def calculate_and_download_values():
         df_data[f"Curve-{i + 1}"] = {"X": X, "Y": Y}
     #st.write("Below is dataframe in dict")
     #st.write(df_data)
-    df = pd.DataFrame(df_data).stack().apply(pd.Series).reset_index(level=1).rename(columns={"level_1": "Curve"}).reset_index()
+    df = pd.DataFrame(df_data).stack().apply(pd.Series).reset_index(level=1).rename(columns={"level_1": "Curve"}).reset_index(drop=True)
     #st.write("Below is dataframe in df")
     #st.write(df)
 
