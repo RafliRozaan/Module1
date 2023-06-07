@@ -668,6 +668,3 @@ calculate_button = st.button('Generate Download Links For Choosen Curves', on_cl
 
 if 'df' in st.session_state:
         st.markdown(get_table_download_link(st.session_state['df']), unsafe_allow_html=True)
-
-if st.button('click me'):
-    st.session_state['df']
