@@ -663,7 +663,7 @@ def calculate_and_download_values():
     st.session_state['df'] = df
 
 
-st.markdown("<h2 style='text-align: left;'>Calculate and Download Values</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center;'>Calculate and Download Values</h2>", unsafe_allow_html=True)
 kaka, kiki, kuku = st.columns((1,1,1))
 with kiki:
     calculate_button = st.button('Generate Download Links For Choosen Curves', on_click=calculate_and_download_values)
