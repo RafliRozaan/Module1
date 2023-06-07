@@ -526,10 +526,10 @@ if predict_button:
     focus = [mask_flattened(i) for i in focus]
     results = [analyze_mask(i,'median',10) for i in focus]
     st.session_state['results'] = results
-    # st.success('Analysis Done ! Plotting Candidates Curve')
-    # colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
-    # images_list = plot_results(results,re_img,colors)
-    # st.session_state["images_list"] = images_list
+    st.success('Analysis Done ! Plotting Candidates Curve')
+    colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
+    images_list = plot_results(results,re_img,colors)
+    st.session_state["images_list"] = images_list
 
 
 if "images_list" in st.session_state:
