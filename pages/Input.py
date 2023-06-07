@@ -655,12 +655,12 @@ def calculate_and_download_values():
         df_data[f"Curve-{i + 1}"] = {"X": X, "Y": Y}
     #st.write("Below is dataframe in dict")
     #st.write(df_data)
-    df = pd.DataFrame(df_data).stack().apply(pd.Series).reset_index(level=1).rename(columns={"level_1": "Curve"}).reset_index(drop=True)
+    df = pd.DataFrame(df_data).stack().apply(pd.Series).reset_index(level=1).rename(columns={"level_1": "Curve"}).reset_index()
     #st.write("Below is dataframe in df")
     #st.write(df)
 
     # Download the DataFrame as an Excel file
-    #st.session_state['df'] = df
+    st.session_state['df'] = df
 
 
 st.markdown("<h2 style='text-align: left;'>Calculate and Download Values</h2>", unsafe_allow_html=True)
