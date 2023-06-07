@@ -378,11 +378,6 @@ v_line_min_x = int(width * v_line_min_position / 100)
 v_line_max_x = int(width * v_line_max_position / 100)
 
 # Create a canvas component
-st.markdown("<h2 style='text-align: center;'>Curve Scanning</h2>", unsafe_allow_html=True)
-sasa, sisi, susu = st.columns((1,1,1))
-
-with sisi:
-    predict_button = st.button('Digitze Curves')
 
 col3, col4,col5 = st.columns((1,1,1))
 if bg_image is not None:
@@ -479,7 +474,11 @@ predict_button = False
 # Create the Predict button outside of any conditional blocks
 st.markdown("<h2 style='text-align: left;'></h2>", unsafe_allow_html=True)  
 st.markdown("<hr style='border-top: 2px solid ; margin-top: 0;'/>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: left;'>Curve Scanning</h2>", unsafe_allow_html=True)
+sasa, sisi, susu = st.columns((1,1,1))
 
+with sisi:
+    predict_button = st.button('Digitze Curves')
 st.markdown("<hr style='border-top: 2px solid ; margin-top: 0;'/>", unsafe_allow_html=True)
 
 
