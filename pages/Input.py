@@ -576,7 +576,6 @@ def calculate_and_download_values():
     
     # Calculate the original and resized dimensions of the image
 
-    st.write("called")
     image = Image.open(bg_image)
     orig_width, orig_height = image.size
     max_length = 800
@@ -589,8 +588,6 @@ def calculate_and_download_values():
     
     # Calculate the positions of the boundary lines
 
-    st.write(orig_width)
-    st.write(orig_height)
 
     h_line_max_y = int(height * h_line_min_position / 100)
     h_line_min_y = int(height * h_line_max_position / 100)
