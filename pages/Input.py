@@ -379,7 +379,7 @@ v_line_max_x = int(width * v_line_max_position / 100)
 
 # Create a canvas component
 
-col3, col4,col5 = st.columns((1,1,1))
+col3, col4,col5 = st.columns((1,5,1))
 if bg_image is not None:
     with col4:
         canvas_result = st_canvas(
