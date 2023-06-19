@@ -322,7 +322,7 @@ bg_color = "#eee"
 st.markdown("<h1 style='text-align: left;'>Upload Curve Image</h1>", unsafe_allow_html=True)
 bg_image = st.file_uploader("Upload the Log Curves Images:", type=["png"])
 
-N = 4
+N = 3
 
 realtime_update = True
 accuracy = 1
@@ -495,8 +495,6 @@ def plot_results(results, re_img, colors):
      for i in range(N):
          fig, ax = plt.subplots(figsize=(10,10*re_img.shape[0]/re_img.shape[1]))
          ax.imshow(re_img, cmap='jet',alpha=0.2)
-        
-
          
          ax.plot(results[i][0], results[i][1], alpha=1, linewidth=1, marker='.',markersize=0.55,c=colors[i])
          ax.set_title('Prediction '+str(i+1))
@@ -538,7 +536,7 @@ if predict_button:
     results = [analyze_mask(i,'median',10) for i in focus]
     st.session_state['results'] = results
     st.success('Analysis Done ! Plotting Candidates Curve')
-    colors = ['#'+str(rgb_to_hex(tuple(i))) for i in list(np.array(centers)[np.array(n_focus)])]
+    colors = ['#' + str(rgb_to_hex(i)) for i in random_color(3)]
     images_list = plot_results(results,re_img,colors)
     st.session_state["images_list"] = images_list
 
