@@ -269,7 +269,7 @@ def load_model():
     model_folder = dataiku.Folder("Module1",'MODULE1')
     model_path = model_folder.list_paths_in_partition()
 
-    tmp_file_path = 'better_predictor_v5.h5'
+    tmp_file_path = 'better_predictor_v6.h5'
 
     with open(tmp_file_path, "wb") as tmp_file:
         with model_folder.get_download_stream(model_path[0]) as model_weight_file:
@@ -495,6 +495,9 @@ def plot_results(results, re_img, colors):
      for i in range(N):
          fig, ax = plt.subplots(figsize=(10,10*re_img.shape[0]/re_img.shape[1]))
          ax.imshow(re_img, cmap='jet',alpha=0.2)
+        
+
+         
          ax.plot(results[i][0], results[i][1], alpha=1, linewidth=1, marker='.',markersize=0.55,c=colors[i])
          ax.set_title('Prediction '+str(i+1))
          fig.subplots_adjust(wspace=0.1, hspace=0.4)
