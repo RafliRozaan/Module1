@@ -536,7 +536,7 @@ if predict_button:
     results = [analyze_mask(i,'median',10) for i in focus]
     st.session_state['results'] = results
     st.success('Analysis Done ! Plotting Candidates Curve')
-    colors = ['#' + str(rgb_to_hex(i)) for i in random_color(3)]
+    colors = ['r','g','b']
     images_list = plot_results(results,re_img,colors)
     st.session_state["images_list"] = images_list
 
