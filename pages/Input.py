@@ -315,7 +315,7 @@ bg_color = "#eee"
 st.markdown("<h1 style='text-align: left;'>Upload Curve Image</h1>", unsafe_allow_html=True)
 bg_image = st.file_uploader("Upload the Log Curves Images:", type=["png"])
 
-N = 12
+N = 3
 
 realtime_update = True
 accuracy = 1
@@ -482,26 +482,26 @@ with sisi:
 st.markdown("<hr style='border-top: 2px solid ; margin-top: 0;'/>", unsafe_allow_html=True)
 
 
-# def plot_results(results, re_img, colors):
-#     images = []
-#     for i in range(N):
-#         fig, ax = plt.subplots(figsize=(10,10*re_img.shape[0]/re_img.shape[1]))
-#         ax.imshow(re_img, cmap='jet',alpha=0.2)
-#         ax.plot(results[i][0], results[i][1], alpha=1, linewidth=1, marker='.',markersize=0.55,c=colors[i])
-#         ax.set_title('Prediction '+str(i+1))
-#         fig.subplots_adjust(wspace=0.1, hspace=0.4)
+def plot_results(results, re_img, colors):
+     images = []
+     for i in range(N):
+         fig, ax = plt.subplots(figsize=(10,10*re_img.shape[0]/re_img.shape[1]))
+         ax.imshow(re_img, cmap='jet',alpha=0.2)
+         ax.plot(results[i][0], results[i][1], alpha=1, linewidth=1, marker='.',markersize=0.55,c=colors[i])
+         ax.set_title('Prediction '+str(i+1))
+         fig.subplots_adjust(wspace=0.1, hspace=0.4)
 
-#         # Convert the figure to an image
-#         buf = io.BytesIO()
-#         fig.savefig(buf, format="png")
-#         buf.seek(0)
-#         img = Image.open(buf)
-#         images.append(img)
+         # Convert the figure to an image
+         buf = io.BytesIO()
+         fig.savefig(buf, format="png")
+         buf.seek(0)
+         img = Image.open(buf)
+         images.append(img)
 
-#         # Close the figure
-#         plt.close(fig)
+         # Close the figure
+         plt.close(fig)
 
-#     return images
+     return images
 
 @st.cache_data
 def create_images(N):
@@ -557,8 +557,6 @@ for i in range(N):
     cols[col].markdown(f"## Prediction - {i+1}", unsafe_allow_html=True)
     cols[col].markdown("<hr style='border:0.5px solid #ccc'/>", unsafe_allow_html=True)
     cols[col].image(images_list[i])
-
-
 
 
 def get_table_download_link(df):
