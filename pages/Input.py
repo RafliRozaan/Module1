@@ -478,7 +478,9 @@ st.markdown("<h2 style='text-align: left;'>Curve Scanning</h2>", unsafe_allow_ht
 sasa, sisi, susu = st.columns((1,1,1))
 
 with sisi:
-    predict_button = st.button('Digitze Curves')
+    predict_button = st.button('Digitize Curves')
+    
+st.markdown("<hr style='border-top: 2px solid ; margin-top: 0;'/>", unsafe_allow_html=True)
 st.markdown("<hr style='border-top: 2px solid ; margin-top: 0;'/>", unsafe_allow_html=True)
 
 
