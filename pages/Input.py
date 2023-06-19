@@ -322,7 +322,7 @@ bg_color = "#eee"
 st.markdown("<h1 style='text-align: left;'>Upload Curve Image</h1>", unsafe_allow_html=True)
 bg_image = st.file_uploader("Upload the Log Curves Images:", type=["png"])
 
-N = 3
+N = 4
 
 realtime_update = True
 accuracy = 1
