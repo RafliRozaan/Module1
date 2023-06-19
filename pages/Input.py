@@ -487,7 +487,7 @@ sasa, sisi, susu = st.columns((1,1,1))
 with sisi:
     predict_button = st.button('Digitize Curves')
 
-st.markdown("<hr style='border-top: 2px solid ; margin-top: 0;'/>", unsafe_allow_html=True)
+st.markdown("---")
 
 
 def plot_results(results, re_img, colors):
