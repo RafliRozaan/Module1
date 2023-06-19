@@ -192,17 +192,24 @@ def get_n_most_common_colors(image_a, n):
     return [np.array(color[1]) for color in sorted_colors[:n]]
 
 def predict_mask(img,mask,N):
-    centers = get_n_most_common_colors(cv2.bitwise_and(img, img, mask),N)
+    masked = np.repeat(mask, 3, axis=2)
+    k = img.copy()
+    k[masked == 1] = 255
+    centers = get_n_most_common_colors(k,12)
     threshold = 32
     outputs = []
+    centers_choosen = []
     for i in range(len(tuple(centers))):
-        rgb_color = tuple(centers[i])
-        lower = np.array([max(0, c - threshold) for c in rgb_color])
-        upper = np.array([min(255, c + threshold) for c in rgb_color])
-        mask = cv2.inRange(img, lower, upper)
-        output = cv2.bitwise_and(img, img, mask=mask)
-        outputs.append(output)
-    return outputs, centers
+        if centers[i].mean() <= 230 and centers[i].mean() >= 5:
+            centers_choosen.append(centers[i])
+            rgb_color = tuple(centers[i])
+            lower = np.array([max(0, c - threshold) for c in rgb_color])
+            upper = np.array([min(255, c + threshold) for c in rgb_color])
+            mask = cv2.inRange(img, lower, upper)
+            output = cv2.bitwise_and(img, img, mask=mask)
+            outputs.append(output)
+
+    return outputs[0:N], centers[0:N]
 
 
 def analyze_mask(mask: np.ndarray, stat: str = 'median', n_v: int = 2) -> np.ndarray:
@@ -480,7 +487,6 @@ sasa, sisi, susu = st.columns((1,1,1))
 with sisi:
     predict_button = st.button('Digitize Curves')
 
-st.markdown("<hr style='border-top: 2px solid ; margin-top: 0; color:b'/>", unsafe_allow_html=True)
 st.markdown("<hr style='border-top: 2px solid ; margin-top: 0;'/>", unsafe_allow_html=True)
 
 
